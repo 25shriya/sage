@@ -27,8 +27,8 @@ class SuperSymmetricFunctions(Parent, UniqueRepresentation):
 
         EXAMPLES::
 
-            sage: ch = matroids.Wheel(3).chow_ring(QQ, False, 'fy')
-            sage: TestSuite(ch).run()
+            sage: R = SuperSymmetricFunctions(QQ)
+            sage: TestSuite(R).run()
         """
         self._base_ring = R
         cat = GradedHopfAlgebras(R).Commutative().Cocommutative()
