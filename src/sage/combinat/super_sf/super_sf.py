@@ -1,4 +1,4 @@
-"""
+r"""
 Supersymmetric functions, with their realizations
 
 AUTHORS:
@@ -14,6 +14,8 @@ AUTHORS:
 # (at your option) any later version.
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
+from unittest import TestSuite
+from sage.rings.rational_field import QQ
 from sage.structure.parent import Parent
 from sage.structure.unique_representation import UniqueRepresentation
 from sage.categories.unique_factorization_domains import UniqueFactorizationDomains
@@ -35,3 +37,15 @@ class SuperSymmetricFunctions(Parent, UniqueRepresentation):
         if R in PrincipalIdealDomains():
             cat &= UniqueFactorizationDomains()
         Parent.__init__(self, category=cat.WithRealizations())
+
+    def _repr_(self):
+        r"""
+        Return the string representation of ``self``.
+
+        EXAMPLES::
+
+            sage: R = SuperSymmetricFunctions(QQ)
+            sage: R._repr_()
+            'Supersymmetric functions over Rational Field'
+        """
+        return "Supersymmetric functions over %s" % self._base_ring
