@@ -17,6 +17,9 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
         return "Category of bases of %s" % self.base()
 
 class SuperSymAlgebra_generic(CombinatorialFreeModule):
+    def __init__(self, base):
+        CombinatorialFreeModule.__init__(self, base, base().index_set(), prefix="s", category=SuperSymmetricFunctionsBases(base))
+
     class Element(CombinatorialFreeModule.Element):
         def __repr__(self):
             return "%s(%s)" % (self.parent().name(), self)
