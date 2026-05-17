@@ -22,7 +22,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
 class SuperSymAlgebra_generic(CombinatorialFreeModule):
     def __init__(self, base):
-        CombinatorialFreeModule.__init__(self, base, base().index_set(), prefix="s", category=SuperSymmetricFunctionsBases(base))
+        CombinatorialFreeModule.__init__(self, base, category=SuperSymmetricFunctionsBases(base))
 
     class Element(CombinatorialFreeModule.Element):
         def __repr__(self):
@@ -30,16 +30,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
 
 class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
     def __init__(self, base):
-        CombinatorialFreeModule.__init__(self, base, base().index_set(), prefix="s", category=SuperSymmetricFunctionsBases(base))
-
-    def product_on_basis(self, left, right):
-        m = list(left) + list(right)
-        m.sort(reverse=True)
-        return self.monomial(Partition(m))
-
-    def coproduct_on_basis(self, mu):
-        T = self.tensor_square()
-        return T.prod(self.coproduct_on_generators(p) for p in mu)
+        CombinatorialFreeModule.__init__(self, base, category=SuperSymmetricFunctionsBases(base))
 
     def _repr_(self):
         return "Multiplicative basis of %s" % self.base()
