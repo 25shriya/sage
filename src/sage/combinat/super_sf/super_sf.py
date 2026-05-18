@@ -14,7 +14,6 @@ AUTHORS:
 # (at your option) any later version.
 #                  https://www.gnu.org/licenses/
 # ****************************************************************************
-from unittest import TestSuite
 from sage.rings.rational_field import QQ
 from sage.structure.parent import Parent
 from sage.structure.unique_representation import UniqueRepresentation
@@ -22,7 +21,7 @@ from sage.categories.unique_factorization_domains import UniqueFactorizationDoma
 from sage.categories.graded_hopf_algebras import GradedHopfAlgebras
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
 
-class SuperSymmetricFunctions(Parent, UniqueRepresentation):
+class SuperSymmetricFunctions(UniqueRepresentation, Parent):
     def __init__(self, R):
         r"""
         Initialize ``self``.
