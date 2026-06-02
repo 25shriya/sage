@@ -36,5 +36,10 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         def antipode_on_basis(self, n):
             part = Partition([n])
             return -self[part]
+
+        def plethysm(self, i):
+            T = self.tensor_square()
+            return
+            # return T.sum_of_monomials((Partition([i]), Partition([])), (Partition()))
         
         # write embedding function - It's upper triangular

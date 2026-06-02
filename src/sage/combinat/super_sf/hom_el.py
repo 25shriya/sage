@@ -49,7 +49,6 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             T = self.tensor_square()
             return T.sum_of_monomials([Partition([i]), Partition([n-i]) for i in range(1, n+1)])
 
-
 # What are super_categories? Figure out the math
 # Current problems - creating an element seems impossible. How does the base ring get set? How can you define elements for each partition?
 # The above two questions will be answered through symmetric functions.
