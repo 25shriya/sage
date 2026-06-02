@@ -1,10 +1,17 @@
+r"""
+Powersum basis of Supersymmetric Functions
+
+AUTHORS:
+
+- Shriya M
+"""
 from . import super_sfa
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.combinat.partition import Partition
 
 class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative):
     def __init__(self, base_ring):
-        super.__init__(self, base_ring)
+        super_sfa.SuperSymAlgebra_multiplicative.__init__(self, base_ring)
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, part=[], alphabet_x='x', alphabet_y='y'):
