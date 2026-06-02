@@ -28,5 +28,13 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                     req_sum += self.x_gens[j] ** p - self.y_gens[j] ** p
                 prod *= req_sum
             return prod
+
+        def coproduct_on_basis(self, n):
+            part = Partition([n])
+            return tensor([self[part], self[part]])
+
+        def antipode_on_basis(self, n):
+            part = Partition([n])
+            return -self[part]
         
         # write embedding function - It's upper triangular
