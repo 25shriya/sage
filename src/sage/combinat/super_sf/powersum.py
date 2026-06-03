@@ -10,8 +10,8 @@ from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.combinat.partition import Partition
 
 class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative):
-    def __init__(self, base_ring):
-        super_sfa.SuperSymAlgebra_multiplicative.__init__(self, base_ring)
+    def __init__(self, Supersym):
+        super_sfa.SuperSymAlgebra_generic(self, SuperSym=Supersym, graded=False)
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, part=[], alphabet_x='x', alphabet_y='y'):
