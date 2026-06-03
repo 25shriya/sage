@@ -32,9 +32,27 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             categories.append(UniqueFactorizationDomains())
         return categories
 
+class FilteredSuperSymBases(Category_realization_of_parent):
+    def super_categories(self):
+        cat = HopfAlgebras(self.base().base_ring()).Commutative().WithBasis().Filtered()
+        return [SuperSymmetricFunctionsBases(self.base()), cat]
+
+class GradedSuperSymBases(Category_realization_of_parent):
+    def super_categories(self):
+        cat = HopfAlgebras(self.base().base_ring()).Commutative().WithBasis().Graded()
+        return [FilteredSuperSymBases(self.base()), cat]
+
 class SuperSymAlgebra_generic(CombinatorialFreeModule):
-    def __init__(self, base):
-        CombinatorialFreeModule.__init__(self, base, category=SuperSymmetricFunctionsBases(base))
+    def __init__(self, SuperSym=None, graded=True):
+        R = SuperSym.base_ring()
+        from sage.categories.commutative_rings import CommutativeRings
+        if R not in CommutativeRings():
+            raise TypeError("argument R must be a commutative ring")
+        if graded:
+            cat = GradedSuperSymBases(SuperSym)
+        else:  # Right now, there are no non-filtered bases. Do we have filtered bases in Supersym case?
+            cat = FilteredSuperSymBases(SuperSym)
+        CombinatorialFreeModule.__init__(self, R, category=cat)
 
     class Element(CombinatorialFreeModule.Element):
         """
