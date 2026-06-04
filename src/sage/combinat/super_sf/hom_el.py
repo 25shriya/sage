@@ -4,10 +4,10 @@ from sage.combinat.partition import Partitions, Partition
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 
 class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
-    def __init__(self, base_ring, basis_name='homogeneous'):
+    def __init__(self, Supersym, basis_name='homogeneous'):
         self.basis_name =  basis_name
         self.element = self.Element(self.basis_name)
-        super_sfa.SuperSymAlgebra_multiplicative.__init__(self, base_ring)
+        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False)
     
     class Element(super_sfa.SuperSymAlgebra_multiplicative):
         def __init__(self, basis_name):

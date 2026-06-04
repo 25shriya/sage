@@ -23,6 +23,7 @@ from sage.categories.unique_factorization_domains import UniqueFactorizationDoma
 from sage.categories.graded_hopf_algebras import GradedHopfAlgebras
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
 from sage.combinat.super_sf.powersum import SupersymFunctionAlgebra_powersum
+from sage.combinat.super_sf.hom_el import SupersymFunctionAlgebra_hom_el
 
 class SuperSymmetricFunctions(UniqueRepresentation, Parent):
     def __init__(self, R):
@@ -57,3 +58,8 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
         return SupersymFunctionAlgebra_powersum(self)
 
     p = powersum
+
+    def homogeneous_elementary(self):
+        return SupersymFunctionAlgebra_hom_el(self)
+
+    h_e = homogeneous_elementary
