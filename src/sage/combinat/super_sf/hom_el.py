@@ -6,14 +6,11 @@ from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
     def __init__(self, Supersym, basis_name='homogeneous'):
         self.basis_name =  basis_name
-        self.element = self.Element(self.basis_name)
         super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False)
     
     class Element(super_sfa.SuperSymAlgebra_multiplicative):
-        def __init__(self, basis_name):
-            self.basis_name = basis_name
-
         def expand(self, part=[], alphabet_x='x', alphabet_y='y'):
+            basis_name = self.parent().basis_name
             res = self.base_ring.one()
             for p in part:
                 x_gens = [alphabet_x+str(i).format(i) for i in range(1, p+1)]
@@ -25,7 +22,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                 for k in parts:
                     for seq1 in combinations(p, k[1]):
                         for seq2 in combinations_with_replacement(p, k[0]):
-                            if self.basis_name == 'homogeneous':
+                            if basis_name == 'homogeneous':
                                 new_seq1 = seq1.sort()
                                 new_seq2 = seq2.sort(reverse=True)
                                 prod = R.one()
@@ -34,7 +31,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                                 for j in range(len(new_seq2)):
                                     prod *= x_gens[j]
                                     req_sum += prod
-                            elif self.basis_name == 'elementary':
+                            elif basis_name == 'elementary':
                                 new_seq1 = seq1.sort(reverse=True)
                                 new_seq2 = seq2.sort()
                                 prod = R.one()
