@@ -6,6 +6,7 @@ from sage.combinat.free_module import CombinatorialFreeModule
 from sage.categories.hopf_algebras import HopfAlgebras
 from sage.categories.unique_factorization_domains import UniqueFactorizationDomains
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
+from sage.rings.integer_ring import ZZ
 
 class SuperSymmetricFunctionsBases(Category_realization_of_parent):
     r"""
@@ -53,6 +54,9 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
         else:  # Right now, there are no non-filtered bases. Do we have filtered bases in Supersym case?
             cat = FilteredSuperSymBases(SuperSym)
         CombinatorialFreeModule.__init__(self, R, category=cat)
+
+    def __getitem__(self, c):
+        return self.monomial(c)
 
     class Element(CombinatorialFreeModule.Element):
         pass

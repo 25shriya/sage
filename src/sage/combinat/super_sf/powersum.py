@@ -8,6 +8,7 @@ AUTHORS:
 from . import super_sfa
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.combinat.partition import Partition
+from sage.categories.tensor import tensor
 
 class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative):
     def __init__(self, Supersym):
@@ -43,7 +44,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
         def plethysm(self, i):
             T = self.tensor_square()
-            return
-            # return T.sum_of_monomials((Partition([i]), Partition([])), (Partition()))
+            return 
+            # T.sum_of_monomials((Partition([i]), Partition([])), ((-1) ** (i + 1) Partition()))
         
         # write embedding function - It's upper triangular
