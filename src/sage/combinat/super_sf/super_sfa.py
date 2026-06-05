@@ -54,6 +54,12 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             cat = FilteredSuperSymBases(SuperSym)
         CombinatorialFreeModule.__init__(self, R, category=cat)
 
+    class Element(CombinatorialFreeModule.Element):
+        pass
+
 class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
     def __init__(self, base):
         CombinatorialFreeModule.__init__(self, base, category=SuperSymmetricFunctionsBases(base))
+
+    class Element(SuperSymAlgebra_generic.Element):
+        pass
