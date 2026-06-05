@@ -23,17 +23,21 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, part=[], alphabet_x='x', alphabet_y='y'):
-            part = Partition(part.sort(reverse=True))
-            prod = self.base_ring.one()
+            part.sort(reverse=True)
+            part = Partition(part)
+            prod = self.parent().base_ring().one()
             for p in part:
                 x_gens = [alphabet_x+str(i).format(i) for i in range(1, p+1)]
                 y_gens = [alphabet_y+str(i).format(i) for i in range(1, p+1)]
                 variables = x_gens + y_gens
-                R = PolynomialRing(self.base_ring, variables)
-                l = min(len(self.x_gens), len(self.y_gens))
+                R = PolynomialRing(self.parent().base_ring(), variables)
+                R_gens = R.gens_dict()
+                x_gens = [R_gens[gen] for gen in x_gens]
+                y_gens = [R_gens[gen] for gen in y_gens]
+                l = min(len(x_gens), len(y_gens))
                 req_sum = R.zero()
                 for j in range(l):
-                    req_sum += self.x_gens[j] ** p - self.y_gens[j] ** p
+                    req_sum += x_gens[j] ** p - y_gens[j] ** p
                 prod *= req_sum
             return prod
 
