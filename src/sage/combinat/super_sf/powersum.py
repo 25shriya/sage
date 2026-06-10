@@ -44,7 +44,5 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
         def plethysm(self, i):
             T = self.tensor_square()
-            return 
+            return
             # T.sum_of_monomials((Partition([i]), Partition([])), ((-1) ** (i + 1) Partition()))
-        
-        # write embedding function - It's upper triangular
