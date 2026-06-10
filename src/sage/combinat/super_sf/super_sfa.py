@@ -45,6 +45,7 @@ class GradedSuperSymBases(Category_realization_of_parent):
 
 class SuperSymAlgebra_generic(CombinatorialFreeModule):
     def __init__(self, SuperSym=None, graded=True):
+        self.SuperSym = SuperSym
         R = SuperSym.base_ring()
         from sage.categories.commutative_rings import CommutativeRings
         if R not in CommutativeRings():
