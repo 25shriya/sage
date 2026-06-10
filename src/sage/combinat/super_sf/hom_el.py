@@ -2,6 +2,7 @@ from . import super_sfa
 from itertools import combinations_with_replacement, combinations
 from sage.combinat.partition import Partitions, Partition
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
+from sage.functions.other import factorial
 
 class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
     def __init__(self, Supersym, basis_name='homogeneous'):
@@ -49,6 +50,34 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                                 req_sum += prod
                     res *= req_sum
             return res
+
+        def change_of_basis(self, n):
+            basis_name = self.parent().basis_name
+            parts = Partitions(n)
+            Supersym = self.parent().SuperSym
+            R = self.base_ring()
+            sum = R.zero()
+
+            def epsilon(part):
+                return (-1) ** (n - len(part))
+
+            def z(part):
+                prod = R.one()
+                for p in part:
+                    m = part.to_exp()[p-1]
+                    prod *= (p ** m) * factorial(p)
+                return prod
+
+            if basis_name == 'homogeneous':
+                for part in parts:
+                    sum += (1 / z(part)) * Supersym.p()[part]
+            elif basis_name == 'elementary':
+                for part in parts:
+                    sum += (1 / z(part)) * (epsilon(part)) * Supersym.p()[part]
+            return sum
+
+
+
                 
                             
 
