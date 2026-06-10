@@ -9,6 +9,7 @@ from . import super_sfa
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.combinat.partition import Partition
 from sage.categories.tensor import tensor
+from sage.combinat.sf.sf import SymmetricFunctions
 
 class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative):
     def __init__(self, Supersym):
@@ -42,7 +43,13 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                 prod *= req_sum
             return prod
 
-        def plethysm(self, i):
-            T = self.tensor_square()
-            return
-            # T.sum_of_monomials((Partition([i]), Partition([])), ((-1) ** (i + 1) Partition()))
+        def plethysm(self, part):
+            R = self.base_ring()
+            phi = R.one()
+            p_sym = SymmetricFunctions(R).p()
+            for p in part:
+                a = tensor([p_sym[p], R.one()])
+                b = (-1) ** (p) * tensor([R.one(), p_sym[p]])
+                phi *= a + b
+            return phi.section()
+            
