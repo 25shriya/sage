@@ -7,6 +7,10 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
     def __init__(self, Supersym, basis_name='homogeneous'):
         self.basis_name =  basis_name
         super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False)
+
+    def coproduct_on_basis(self, n):
+            T = self.tensor_square()
+            return T.sum_of_monomials((Partition([i]), Partition([n-i])) for i in range(1, n+1))
     
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, part=[], alphabet_x='x', alphabet_y='y'):
@@ -45,10 +49,6 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                                 req_sum += prod
                     res *= req_sum
             return res
-
-        def coproduct_on_basis(self, n):
-            T = self.tensor_square()
-            return T.sum_of_monomials((Partition([i]), Partition([n-i])) for i in range(1, n+1))
 
 # What are super_categories? Figure out the math
 # Current problems - creating an element seems impossible. How does the base ring get set? How can you define elements for each partition?
