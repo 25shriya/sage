@@ -58,12 +58,6 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
     def __getitem__(self, c):
         return self.monomial(c)
 
-    class Element(CombinatorialFreeModule.Element):
-        pass
-
 class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
     def __init__(self, base):
         CombinatorialFreeModule.__init__(self, base, category=SuperSymmetricFunctionsBases(base))
-
-    class Element(SuperSymAlgebra_generic.Element):
-        pass
