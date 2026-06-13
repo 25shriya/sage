@@ -27,22 +27,17 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         def expand(self, part=[], alphabet_x='x', alphabet_y='y'):
             part.sort(reverse=True)
             part = Partition(part)
-            prod = self.parent().base_ring().one()
-            for p in part:
-                x_gens = [alphabet_x+str(i).format(i) for i in range(1, p+1)]
-                y_gens = [alphabet_y+str(i).format(i) for i in range(1, p+1)]
-                variables = x_gens + y_gens
-                R = PolynomialRing(self.parent().base_ring(), variables)
-                R_gens = R.gens_dict()
-                x_gens = [R_gens[gen] for gen in x_gens]
-                y_gens = [R_gens[gen] for gen in y_gens]
-                l = min(len(x_gens), len(y_gens))
-                req_sum = R.zero()
-                for j in range(l):
-                    req_sum += x_gens[j] ** p - y_gens[j] ** p
-                prod *= req_sum
-            return prod
-
+            R = self.base_ring()
+            p_sym = SymmetricFunctions(R).p()
+            self_parts = self.monomial_coefficients()
+            sum = R.zero()
+            for k in self_parts:
+                prod = R.one()
+                for p in part:
+                    prod *= p_sym[k].expand(p, alphabet=alphabet_x) - p_sym[k].expand(p, alphabet=alphabet_y)
+                sum += self_parts[k] * prod
+            return sum
+       
         def plethysm(self, part):
             R = self.base_ring()
             phi = R.one()
@@ -52,4 +47,3 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                 b = (-1) ** (p) * tensor([R.one(), p_sym[p]])
                 phi *= a + b
             return phi.section()
-            
