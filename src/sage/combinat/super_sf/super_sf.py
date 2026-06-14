@@ -99,7 +99,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
     p = powersum
 
-    def homogeneous_elementary(self, basis_name):
+    def homogeneous_elementary(self, basis_name='homogeneous'):
         r"""
             The homogeneous or elementary basis of supersymmetric functions.
 
