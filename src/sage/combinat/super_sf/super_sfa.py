@@ -170,7 +170,6 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             sage: isinstance(p, SuperSymAlgebra_generic)
             True
         """
-        self.SuperSym = SuperSym
         R = SuperSym.base_ring()
         from sage.categories.commutative_rings import CommutativeRings
         if R not in CommutativeRings():
@@ -229,7 +228,7 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
-            sage: e = s.h_e('elementary')
+            sage: e = s.e()
             sage: e.product_on_basis([3,2], [6,5])
             B[[6, 5, 3, 2]]
         """
