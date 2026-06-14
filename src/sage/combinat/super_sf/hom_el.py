@@ -9,7 +9,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         self.basis_name =  basis_name
         super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False)
 
-    def coproduct_on_basis(self, n):
+    def coproduct_on_generators(self, n):
             T = self.tensor_square()
             return T.sum_of_monomials((Partition([i]), Partition([n-i])) for i in range(1, n+1))
 
