@@ -121,7 +121,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                     sum = R.zero()
                     for i in range(n):
                         sum += x_gens1[i] ** p - y_gens1[i] ** p
-                    prod *= sum           
+                    prod *= sum     
                 res += self_parts[part] * prod
             return res
 
