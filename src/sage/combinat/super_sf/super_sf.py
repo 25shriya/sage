@@ -38,6 +38,10 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
     - ``R`` -- commutative ring
 
+    REFERENCES:
+
+    - [BHS25]_
+
     EXAMPLES::
 
     sage: R = SuperSymmetricFunctions(QQ)
