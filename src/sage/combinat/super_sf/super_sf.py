@@ -44,8 +44,8 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
     EXAMPLES::
 
-    sage: R = SuperSymmetricFunctions(QQ)
-    sage: TestSuite(R).run()
+        sage: R = SuperSymmetricFunctions(QQ)
+        sage: TestSuite(R).run()
     """
     def __init__(self, R):
         r"""
@@ -95,9 +95,9 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
         EXAMPLES::
 
-        sage: s = SuperSymmetricFunctions(QQ)
-        sage: s.powersum()
-        Supersymmetric functions over Rational Field in the powersum basis
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: s.powersum()
+            Supersymmetric functions over Rational Field in the powersum basis
         """
         return SupersymFunctionAlgebra_powersum(self)
 
@@ -105,9 +105,9 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
     def homogeneous(self):
         r"""
-            The homogeneous basis of supersymmetric functions.
+        The homogeneous basis of supersymmetric functions.
 
-            EXAMPLES::
+        EXAMPLES::
 
             sage: s = SuperSymmetricFunctions(QQ)
             sage: s.homogeneous()
@@ -119,9 +119,9 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
     def elementary(self):
         r"""
-            The elementary basis of supersymmetric functions.
+        The elementary basis of supersymmetric functions.
 
-            EXAMPLES::
+        EXAMPLES::
 
             sage: s = SuperSymmetricFunctions(QQ)
             sage: s.elementary()

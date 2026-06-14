@@ -59,11 +59,11 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
 
         EXAMPLES::
 
-        sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
-        sage: s = SuperSymmetricFunctions(QQ)
-        sage: h = s.h()
-        sage: h.coproduct_on_generators(5)
-        B[[1]] # B[[4]] + B[[2]] # B[[3]] + B[[3]] # B[[2]] + B[[4]] # B[[1]] + B[[5]] # B[[]]
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: h = s.h()
+            sage: h.coproduct_on_generators(5)
+            B[[1]] # B[[4]] + B[[2]] # B[[3]] + B[[3]] # B[[2]] + B[[4]] # B[[1]] + B[[5]] # B[[]]
         """
         T = self.tensor_square()
         return T.sum_of_monomials((Partition([i]), Partition([n-i])) for i in range(1, n+1))
@@ -74,30 +74,36 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         basis for a given ``n``.
 
         EXAMPLES::
+
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: h = s.h()
+            sage: h.change_of_basis(3)
         """
-        basis_name = self.parent().basis_name
-        parts = Partitions(n)
-        Supersym = self.parent().realization_of()
-        R = self.base_ring()
-        sum = Supersym.zero()
+        # basis_name = self.parent().basis_name
+        # parts = Partitions(n)
+        # Supersym = self.parent().realization_of()
+        # R = self.base_ring()
+        # sum = Supersym.zero()
 
-        def epsilon(part):
-            return (-1) ** (n - len(part))
+        # def epsilon(part):
+        #     return (-1) ** (n - len(part))
 
-        def z(part):
-            prod = Supersym.one()
-            for p in part:
-                m = part.to_exp()[p-1]
-                prod *= (p ** m) * factorial(p)
-            return prod
+        # def z(part):
+        #     prod = Supersym.one()
+        #     for p in part:
+        #         m = part.to_exp()[p-1]
+        #         prod *= (p ** m) * factorial(p)
+        #     return prod
 
-        if basis_name == 'homogeneous':
-            for part in parts:
-                sum += (1 / z(part)) * Supersym.p()[part]
-        elif basis_name == 'elementary':
-            for part in parts:
-                sum += (1 / z(part)) * (epsilon(part)) * Supersym.p()[part]
-        return sum
+        # if basis_name == 'homogeneous':
+        #     for part in parts:
+        #         sum += (1 / z(part)) * Supersym.p()[part]
+        # elif basis_name == 'elementary':
+        #     for part in parts:
+        #         sum += (1 / z(part)) * (epsilon(part)) * Supersym.p()[part]
+        # return sum
+        return
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, n, alphabet_x='x', alphabet_y='y'):
