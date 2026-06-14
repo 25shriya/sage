@@ -7,6 +7,7 @@ from sage.categories.hopf_algebras import HopfAlgebras
 from sage.categories.unique_factorization_domains import UniqueFactorizationDomains
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
 from sage.combinat.partition import Partition
+from sage.rings.integer_ring import ZZ
 
 class SuperSymmetricFunctionsBases(Category_realization_of_parent):
     r"""
@@ -182,11 +183,11 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
 
     def __getitem__(self, c):
         r"""
-        Return the monomial corresponding to the given list/partition.
+        Return the monomial corresponding to the given list/partition/integer.
 
         INPUT:
 
-        - ``c`` -- list or partition
+        - ``c`` -- list, integer or partition
 
         EXAMPLES::
 
@@ -194,14 +195,17 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: p = s.p()
             sage: p[5,4,3]
-            B[(5, 4, 3)]
+            B[[5, 4, 3]]
             sage: from sage.combinat.partition import Partition
             sage: part = Partition([3,2])
             sage: p[part]
             B[[3, 2]]
         """
         if not isinstance(c, Partition):
-            c.sort(reverse=True)
+            if c not in ZZ:
+                list(c).sort(reverse=True)
+            else:
+                c = [c]
             c = Partition(mu=c)
         return self.monomial(c)
 
