@@ -119,12 +119,12 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                 prod = R.one()
                 for p in part:
                     sum = R.zero()
-                    for i in range(0, n):
+                    for i in range(n):
                         sum += x_gens1[i] ** p - y_gens1[i] ** p
-                    prod *= sum                    
+                    prod *= sum           
                 res += self_parts[part] * prod
             return res
-       
+
         def plethysm(self, part):
             r"""
                 Return the plethysm of ``self`` with ``part``.

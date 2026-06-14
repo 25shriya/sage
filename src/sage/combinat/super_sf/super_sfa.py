@@ -15,7 +15,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
     EXAMPLES::
 
-        sage: SuperSymmetricFunctionsBases()    
+        sage: SuperSymmetricFunctionsBases()
         Category of bases of supersymmetric functions
     """
     def _repr_(self):
@@ -213,7 +213,7 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
     Abstract class of multiplicative supersymmetric function algebras.
 
     A realization `h` of the ring of supersymmetric functions is multiplicative
-    if for a partition `\lambda = (\lambda_1,\lambda_2,\ldots)` we have 
+    if for a partition `\lambda = (\lambda_1,\lambda_2,\ldots)` we have
     `h_\lambda = h_{\lambda_1} h_{\lambda_2} \cdots`.
     """
     def product_on_basis(self, left, right):
