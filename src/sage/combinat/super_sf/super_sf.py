@@ -75,23 +75,13 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
         """
         return "Supersymmetric functions over %s" % self._base
 
-    def _latex_(self):
-        r"""
-        Return the LaTeX output of the base ring.
-
-        EXAMPLES::
-
-            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
-            sage: s = SuperSymmetricFunctions(QQ)
-            sage: s._latex_()
-            \Bold{Q}
-        """
-        from sage.misc.latex import latex
-        return latex(self.base_ring())
-
     def powersum(self):
         r"""
         The powersum basis of supersymmetric functions.
+
+        .. SEEALSO::
+
+            :mod:`sage.combinat.super_sf.powersum`
 
         EXAMPLES::
 
@@ -107,6 +97,10 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
         r"""
         The homogeneous basis of supersymmetric functions.
 
+        .. SEEALSO::
+
+            :mod:`sage.combinat.super_sf.hom_el`
+
         EXAMPLES::
 
             sage: s = SuperSymmetricFunctions(QQ)
@@ -120,6 +114,10 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
     def elementary(self):
         r"""
         The elementary basis of supersymmetric functions.
+
+        .. SEEALSO::
+
+            :mod:`sage.combinat.super_sf.hom_el`
 
         EXAMPLES::
 
