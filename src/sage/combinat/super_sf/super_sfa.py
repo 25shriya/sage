@@ -58,51 +58,6 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             categories.append(UniqueFactorizationDomains())
         return categories
 
-class FilteredSuperSymBases(Category_realization_of_parent):
-    r"""
-    The category of filtered bases of supersymmetric functions.
-
-    EXAMPLES::
-
-        sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
-        sage: s = SuperSymmetricFunctions(QQ)
-        sage: from sage.combinat.super_sf.super_sfa import FilteredSuperSymBases
-        sage: f = FilteredSuperSymBases(s)
-        sage: f
-        Category of filtered bases of Supersymmetric functions over Rational Field
-    """
-    def _repr_(self):
-        r"""
-        Return the string representation of ``self``.
-
-        EXAMPLES::
-
-            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
-            sage: s = SuperSymmetricFunctions(QQ)
-            sage: from sage.combinat.super_sf.super_sfa import FilteredSuperSymBases
-            sage: f = FilteredSuperSymBases(s)
-            sage: f._repr_()
-            Category of filtered bases of Supersymmetric functions over Rational Field
-        """
-        return "Category of filtered bases of %s" % self.base()
-
-    def super_categories(self):
-        r"""
-        Return the super categories of ``self``.
-
-        EXAMPLES::
-
-            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
-            sage: s = SuperSymmetricFunctions(QQ)
-            sage: from sage.combinat.super_sf.super_sfa import FilteredSuperSymBases
-            sage: f = FilteredSuperSymBases(s)
-            sage: f.super_categories()
-            [Category of bases of Supersymmetric functions over Rational Field,
-             Category of commutative filtered Hopf algebras with basis over Rational Field]
-        """
-        cat = HopfAlgebras(self.base().base_ring()).Commutative().WithBasis().Filtered()
-        return [SuperSymmetricFunctionsBases(self.base()), cat]
-
 class GradedSuperSymBases(Category_realization_of_parent):
     r"""
     The category of graded bases of supersymmetric functions.
@@ -141,11 +96,11 @@ class GradedSuperSymBases(Category_realization_of_parent):
             sage: from sage.combinat.super_sf.super_sfa import GradedSuperSymBases
             sage: g = GradedSuperSymBases(s)
             sage: g.super_categories()
-            [Category of filtered bases of Supersymmetric functions over Rational Field,
+            [Category of bases of Supersymmetric functions over Rational Field,
              Category of commutative graded Hopf algebras with basis over Rational Field]
         """
         cat = HopfAlgebras(self.base().base_ring()).Commutative().WithBasis().Graded()
-        return [FilteredSuperSymBases(self.base()), cat]
+        return [SuperSymmetricFunctionsBases(self.base()), cat]
 
 class SuperSymAlgebra_generic(CombinatorialFreeModule):
     r"""
@@ -177,7 +132,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
         if graded:
             cat = GradedSuperSymBases(SuperSym)
         else:  # Right now, there are no non-graded bases. Do we have filtered bases in Supersym case?
-            cat = FilteredSuperSymBases(SuperSym)
+            cat = SuperSymmetricFunctionsBases(SuperSym)
         CombinatorialFreeModule.__init__(self, R, category=cat)
 
     def __getitem__(self, c):
