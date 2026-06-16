@@ -143,11 +143,11 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
         def plethysm(self, part):
             r"""
-                Return the plethysm of ``self`` with ``part``.
+            Return the plethysm of ``self`` with ``part``.
 
-                INPUT:
+            INPUT:
 
-                - ``part`` -- a partition
+            - ``part`` -- a partition
             """
             R = self.base_ring()
             phi = R.one()
