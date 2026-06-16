@@ -12,13 +12,30 @@ from sage.categories.tensor import tensor
 from sage.combinat.sf.sf import SymmetricFunctions
 
 class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative):
-    def __init__(self, Supersym):
-        r"""
-        Class for methods associated with powersum supersymmetric functions.
+    r"""
+    Powersum supersymmetric functions.
 
-        INPUT:
+    The powersum supersymmetric function defined on variables `\mathbb{x}` and
+    `\mathbb{y}`, `p_i(\mathbb{x} \mid \mathbb{y})`, is given as
+
+    .. MATH::
+
+        p_i(\mathbb{x} \mid \mathbb{y}) = \sum_{k=1}^\infty x_k^i - y_k^i
+
+    These form a non-graded multiplicative basis for the ring of supersymmetric
+    functions.
+
+    REFERENCES:
+
+    - [BHS25]_
+
+    INPUT:
 
         - ``Supersym`` -- the ring of supersymmetric functions
+    """
+    def __init__(self, Supersym):
+        r"""
+        Initialize ``self``.
 
         EXAMPLES::
 
@@ -43,25 +60,26 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         """
         return "%s in the powersum basis" % (self.realization_of())
 
-    def coproduct_on_generators(self, n):
+    def coproduct_on_generators(self, part):
         r"""
-        Return coproduct on generators for power sums `p_i`
-        (for `i > 0`).
+        Return coproduct on generators for power sums `p_\lambda`
+        (for partition `\lambda`).
 
         INPUT:
 
-        - ``n`` -- a positive integer
+        - ``part`` -- a partition or list
 
         EXAMPLES::
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: p = s.p()
-            sage: p.coproduct_on_generators(3)
-            B[[3]] # B[[3]]
+            sage: p.coproduct_on_generators([3,2])
+            B[[3,2]] # B[[3,2]]
         """
-        part = Partition([n])
-        return tensor([self[part], self[part]]) # Shouldn't this take in a partition?
+        if not isinstance(part, Partition):
+            part = Partition([part])
+        return tensor([self[part], self[part]])
 
     def antipode_on_basis(self, part):
         r"""
@@ -118,10 +136,8 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             for part in self_parts:
                 prod = R.one()
                 for p in part:
-                    sum = R.zero()
-                    for i in range(n):
-                        sum += x_gens1[i] ** p - y_gens1[i] ** p
-                    prod *= sum
+                    res_sum = sum([x_gens1[i] ** p - y_gens1[i] ** p for i in range(n)])
+                    prod *= res_sum
                 res += self_parts[part] * prod
             return res
 
@@ -141,3 +157,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                 b = (-1) ** (p) * tensor([R.one(), p_sym[p]])
                 phi *= a + b
             return phi.section() # Debug
+
+# Use import statements prod for expand
+# Debug all functions
+# I added self._base to sym. It's messing with the ring.

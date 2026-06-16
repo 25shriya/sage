@@ -12,18 +12,44 @@ from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.functions.other import factorial
 
 class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
+    r"""
+    Homogeneous and elementary supersymmetric functions.
+
+    The homogeneous supersymmetric function defined on variables `\mathbb{x}` and
+    `\mathbb{y}`, `h_k(\mathbb{x} \mid \mathbb{y})`, is given as
+
+    .. MATH::
+
+        h_k(\mathbb{x} \mid \mathbb{y}) = \sum_{a+b=k}\sum_{i_1 \geq \ldots \geq i_b \\ j_1 < \ldots < j_a}
+        y_{j_1} \ldots y_{j_a} x_{i_1} \ldots x_{i_b}.
+
+    The elementary supersymmetric function defined on variables `\mathbb{x}` and
+    `\mathbb{y}`, `e_k(\mathbb{x} \mid \mathbb{y})`, is given as
+
+    .. MATH::
+
+        e_k(\mathbb{x} \mid \mathbb{y}) = \sum_{a+b=k}\sum_{i_1 > \ldots > i_b \\ j_1 \leq \ldots \leq j_a}
+        y_{j_1} \ldots y_{j_a} x_{i_1} \ldots x_{i_b}.
+    
+
+    These form a multiplicative non-graded basis for the ring of supersymmetric
+    functions.
+
+    REFERENCES:
+
+    - [BHS25]_
+
+    INPUT:
+
+    - ``Supersym`` -- the ring of supersymmetric functions
+    - ``basis_name`` -- string (default: ``'homogeneous'``); one of the following
+
+        * ``'homogeneous'`` - homogeneous basis of supersymmetric functions
+        * ``'elementary'`` - elementary basis of supersymmetric functions
+    """
     def __init__(self, Supersym, basis_name='homogeneous'):
         r"""
-        Class for methods associated with homogeneous and elementary
-        supersymmetric functions.
-
-        INPUT:
-
-        - ``Supersym`` -- the ring of supersymmetric functions
-        - ``basis_name`` -- string (default: ``'homogeneous'``); one of the following
-
-            * ``'homogeneous'`` - homogeneous basis of supersymmetric functions
-            * ``'elementary'`` - elementary basis of supersymmetric functions
+        Initialize ``self``.
 
         EXAMPLES::
 
@@ -68,7 +94,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         T = self.tensor_square()
         return T.sum_of_monomials((Partition([i]), Partition([n-i])) for i in range(1, n+1))
 
-    def change_of_basis(self, n): # Debug
+    def lift_on_gens(self, n): # Debug
         r"""
         Return the homogeneous or elementary basis in terms of powersum
         basis for a given ``n``.
@@ -139,26 +165,21 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             fin_res = R.zero()
             for k in monomial_coeff:
                 for ki in k:
-                    parts = Partitions(ki, length=2)
-                    for p in parts:
-                        for seq1 in combinations(range(n), p[1]):
-                            for seq2 in combinations_with_replacement(range(n), p[0]):
+                    for p in range(1, ki+1):
+                        for seq1 in combinations(range(n), (ki - p)):
+                            for seq2 in combinations_with_replacement(range(n), p):
                                 if basis_name == 'homogeneous':
-                                    new_seq1 = sorted(seq1)
-                                    new_seq2 = sorted(seq2, reverse=True)
                                     prod = R.one()
-                                    for i in range(len(new_seq1)):
+                                    for i in range(len(seq1)):
                                         prod *= y_gens[i]
-                                    for j in range(len(new_seq2)):
+                                    for j in range(len(seq2)):
                                         prod *= x_gens[j]
                                     req_sum += prod
                                 elif basis_name == 'elementary':
-                                    new_seq1 = sorted(seq1, reverse=True)
-                                    new_seq2 = sorted(seq2)
                                     prod = R.one()
-                                    for i in range(len(new_seq2)):
+                                    for i in range(len(seq2)):
                                         prod *= y_gens[i]
-                                    for j in range(len(new_seq1)):
+                                    for j in range(len(seq1)):
                                         prod *= x_gens[j]
                                     req_sum += prod
                     res *= req_sum
