@@ -45,7 +45,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             sage: p = s.p()
             sage: TestSuite(p).run()
         """
-        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False, 
+        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False,
                                                    prefix='p', basis_name='powersum')
 
     def _repr_(self):
@@ -148,10 +148,10 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             R_gens = R.gens_dict()
             x_gens1 = [R_gens[gen] for gen in x_gens]
             y_gens1 = [R_gens[gen] for gen in y_gens]
-            res = sum([self_parts[part] * 
-                       prod([sum([x_gens1[i] ** p - y_gens1[i] ** p 
-                                  for i in range(n)]) 
-                                  for p in part]) 
+            res = sum([self_parts[part] *
+                       prod([sum([x_gens1[i] ** p - y_gens1[i] ** p
+                                  for i in range(n)])
+                                  for p in part])
                                   for part in self_parts])
             return res
 

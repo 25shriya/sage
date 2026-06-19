@@ -31,7 +31,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
 
         e_k(\mathbb{x} \mid \mathbb{y}) = \sum_{a+b=k}\sum_{i_1 > \ldots > i_b \\ j_1 \leq \ldots \leq j_a}
         y_{j_1} \ldots y_{j_a} x_{i_1} \ldots x_{i_b}.
-    
+
 
     These form a multiplicative non-graded basis for the ring of supersymmetric
     functions.
@@ -65,7 +65,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         elif basis_name == 'elementary':
             prefix = 'e'
         else:
-            ValueError("Invalid basis name")
+            raise ValueError("Invalid basis name")
         super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False,
                                                    prefix=prefix, basis_name=basis_name)
 
@@ -155,10 +155,10 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                 sage: s = SuperSymmetricFunctions(QQ)
                 sage: h = s.h()
                 sage: h[3,2].expand(3)
-                100*x1^2*x2^2*x3^2 + 360*x1^2*x2^2*x3*y1 + 324*x1^2*x2^2*y1^2 + 
-                180*x1^2*x2*x3*y1*y2 + 324*x1^2*x2*y1^2*y2 + 
-                81*x1^2*y1^2*y2^2 + 60*x1^2*x2^2*x3 + 108*x1^2*x2^2*y1 + 
-                90*x1^2*x2*x3*y1 + 162*x1^2*x2*y1^2 + 54*x1^2*x2*y1*y2 + 
+                100*x1^2*x2^2*x3^2 + 360*x1^2*x2^2*x3*y1 + 324*x1^2*x2^2*y1^2 +
+                180*x1^2*x2*x3*y1*y2 + 324*x1^2*x2*y1^2*y2 +
+                81*x1^2*y1^2*y2^2 + 60*x1^2*x2^2*x3 + 108*x1^2*x2^2*y1 +
+                90*x1^2*x2*x3*y1 + 162*x1^2*x2*y1^2 + 54*x1^2*x2*y1*y2 +
                 81*x1^2*y1^2*y2
             """
             basis_name = self.parent().basis_name
