@@ -117,7 +117,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         R = self.base_ring()
         phi = R.one()
         p_sym = SymmetricFunctions(R).p()
-        phi = prod([([p_sym[p], p_sym.one()]) + (-1 ** p) * tensor([p_sym.one(), p_sym[p]]) for p in part])
+        phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1 ** p) * tensor([p_sym.one(), p_sym[p]]) for p in part])
         return phi #.section() - Debug
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
