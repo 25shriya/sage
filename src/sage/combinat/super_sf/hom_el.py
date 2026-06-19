@@ -10,6 +10,7 @@ from itertools import combinations_with_replacement, combinations
 from sage.combinat.partition import Partitions, Partition
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.functions.other import factorial
+from sage.misc.misc_c import prod
 
 class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
     r"""
@@ -58,7 +59,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: h = s.h()
             sage: TestSuite(h).run()
         """
-        self.basis_name =  basis_name
+        self.basis_name = basis_name
         super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False)
 
     def _repr_(self):
@@ -94,7 +95,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         T = self.tensor_square()
         return T.sum_of_monomials((Partition([i]), Partition([n-i])) for i in range(1, n+1))
 
-    def lift_on_gens(self, n): # Debug
+    def lift_on_gens(self, n):
         r"""
         Return the homogeneous or elementary basis in terms of powersum
         basis for a given ``n``.
@@ -104,32 +105,30 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: h = s.h()
-            sage: h.change_of_basis(3)
+            sage: h.lift_on_gens(3)
+            B[[1, 1, 1]] + 1/4*B[[2, 1]] + 1/18*B[[3]]
         """
-        # basis_name = self.parent().basis_name
-        # parts = Partitions(n)
-        # Supersym = self.parent().realization_of()
-        # R = self.base_ring()
-        # sum = Supersym.zero()
+        basis_name = self.basis_name
+        parts = Partitions(n)
+        Supersym = self.realization_of()
+        R = self.base_ring()
+        res = R.zero()
 
-        # def epsilon(part):
-        #     return (-1) ** (n - len(part))
+        def epsilon(part):
+            return (-1) ** (n - len(part))
 
-        # def z(part):
-        #     prod = Supersym.one()
-        #     for p in part:
-        #         m = part.to_exp()[p-1]
-        #         prod *= (p ** m) * factorial(p)
-        #     return prod
+        def z(part):
+            prod = R.one()
+            for p in part:
+                m = part.to_exp()[p-1]
+                prod *= (p ** m) * factorial(p)
+            return prod
 
-        # if basis_name == 'homogeneous':
-        #     for part in parts:
-        #         sum += (1 / z(part)) * Supersym.p()[part]
-        # elif basis_name == 'elementary':
-        #     for part in parts:
-        #         sum += (1 / z(part)) * (epsilon(part)) * Supersym.p()[part]
-        # return sum
-        return
+        if basis_name == 'homogeneous':
+            res = sum([(1 / z(part)) * Supersym.p()[part] for part in parts])
+        elif basis_name == 'elementary':
+            res = sum([(1 / z(part)) * (epsilon(part)) * Supersym.p()[part] for part in parts])
+        return res
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, n, alphabet_x='x', alphabet_y='y'):
@@ -149,7 +148,11 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                 sage: s = SuperSymmetricFunctions(QQ)
                 sage: h = s.h()
                 sage: h[3,2].expand(3)
-                324*x1^2*x2^2*y1^2 + 162*x1^2*x2*y1^2
+                100*x1^2*x2^2*x3^2 + 360*x1^2*x2^2*x3*y1 + 324*x1^2*x2^2*y1^2 + 
+                180*x1^2*x2*x3*y1*y2 + 324*x1^2*x2*y1^2*y2 + 
+                81*x1^2*y1^2*y2^2 + 60*x1^2*x2^2*x3 + 108*x1^2*x2^2*y1 + 
+                90*x1^2*x2*x3*y1 + 162*x1^2*x2*y1^2 + 54*x1^2*x2*y1*y2 + 
+                81*x1^2*y1^2*y2
             """
             basis_name = self.parent().basis_name
             res = self.base_ring().one()
@@ -169,19 +172,11 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                         for seq1 in combinations(range(n), (ki - p)):
                             for seq2 in combinations_with_replacement(range(n), p):
                                 if basis_name == 'homogeneous':
-                                    prod = R.one()
-                                    for i in range(len(seq1)):
-                                        prod *= y_gens[i]
-                                    for j in range(len(seq2)):
-                                        prod *= x_gens[j]
-                                    req_sum += prod
+                                    res_prod = prod([y_gens[i] for i in range(len(seq1))]) * prod([x_gens[j] for j in range(len(seq2))])
+                                    req_sum += res_prod
                                 elif basis_name == 'elementary':
-                                    prod = R.one()
-                                    for i in range(len(seq2)):
-                                        prod *= y_gens[i]
-                                    for j in range(len(seq1)):
-                                        prod *= x_gens[j]
-                                    req_sum += prod
+                                    res_prod = prod([y_gens[i] for i in range(len(seq2))]) * prod([x_gens[j] for j in range(len(seq1))])
+                                    req_sum += res_prod
                     res *= req_sum
                 fin_res += monomial_coeff[k] * res
             return fin_res

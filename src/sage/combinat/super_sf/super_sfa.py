@@ -6,7 +6,7 @@ from sage.combinat.free_module import CombinatorialFreeModule
 from sage.categories.hopf_algebras import HopfAlgebras
 from sage.categories.unique_factorization_domains import UniqueFactorizationDomains
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
-from sage.combinat.partition import Partition
+from sage.combinat.partition import Partition, _Partitions
 from sage.rings.integer_ring import ZZ
 
 class SuperSymmetricFunctionsBases(Category_realization_of_parent):
@@ -57,6 +57,20 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
         if R in PrincipalIdealDomains:
             categories.append(UniqueFactorizationDomains())
         return categories
+    class ParentMethods:
+        def one_basis(self):
+            r"""
+            Return the empty partition, as per ``AlgebrasWithBasis.ParentMethods.one_basis``.
+
+            EXAMPLES::
+
+                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+                sage: s = SuperSymmetricFunctions(QQ)
+                sage: h = s.h()
+                sage: h.one_basis()
+                []
+            """
+            return _Partitions([])
 
 class GradedSuperSymBases(Category_realization_of_parent):
     r"""
@@ -85,6 +99,7 @@ class GradedSuperSymBases(Category_realization_of_parent):
             Category of graded bases of Supersymmetric functions over Rational Field
         """
         return "Category of graded bases of %s" % self.base()
+
     def super_categories(self):
         r"""
         Return the super categories of ``self``.
@@ -198,8 +213,23 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
         INPUT:
 
         - ``mu`` -- a partition
+
+        EXAMPLES::
+
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: h = s.h()
+            sage: h.coproduct_on_basis(part)
+            B[[1, 1, 1]] # B[[3, 3, 1]] + 2*B[[2, 1, 1]] # B[[3, 2, 1]] + 
+            B[[2, 1, 1]] # B[[3, 3]] + B[[2, 2, 1]] # B[[2, 2, 1]] +
+            2*B[[2, 2, 1]] # B[[3, 2]] + B[[2, 2, 2]] # B[[2, 2]] +
+            2*B[[3, 1, 1]] # B[[3, 1, 1]] + 2*B[[3, 2, 1]] # B[[2, 1, 1]] + 
+            2*B[[3, 2, 1]] # B[[3, 1]] + 2*B[[3, 2, 2]] # B[[2, 1]] + 
+            B[[3, 3, 1]] # B[[1, 1, 1]] + B[[3, 3, 2]] # B[[1, 1]] + 
+            2*B[[4, 1, 1]] # B[[3, 1]] + 2*B[[4, 2, 1]] # B[[2, 1]] + 
+            2*B[[4, 2, 1]] # B[[3]] + 2*B[[4, 2, 2]] # B[[2]] + 
+            2*B[[4, 3, 1]] # B[[1, 1]] + 2*B[[4, 3, 2]] # B[[1]] + 
+            B[[4, 4, 1]] # B[[1]] + B[[4, 4, 2]] # B[[]]
         """
-        # Debug this function
-        # T = self.tensor_square()
-        # return T.prod(self.coproduct_on_generators(p) for p in mu)
-        return
+        T = self.tensor_square()
+        return T.prod(self.coproduct_on_generators(p) for p in mu)

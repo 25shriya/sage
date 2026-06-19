@@ -10,6 +10,7 @@ from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.combinat.partition import Partition
 from sage.categories.tensor import tensor
 from sage.combinat.sf.sf import SymmetricFunctions
+from sage.misc.misc_c import prod
 
 class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative):
     r"""
@@ -104,6 +105,20 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             part = Partition(part)
         return -self[part]
 
+    def plethysm(self, part):
+        r"""
+        Return the plethysm of ``self`` with ``part``.
+
+        INPUT:
+
+        - ``part`` -- a partition
+        """
+        R = self.base_ring()
+        phi = R.one()
+        p_sym = SymmetricFunctions(R).p()
+        phi = prod([([p_sym[p], p_sym.one()]) + (-1 ** p) * tensor([p_sym.one(), p_sym[p]]) for p in part])
+        return phi #.section() - Debug
+
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, n, alphabet_x='x', alphabet_y='y'):
             r"""
@@ -132,32 +147,13 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             R_gens = R.gens_dict()
             x_gens1 = [R_gens[gen] for gen in x_gens]
             y_gens1 = [R_gens[gen] for gen in y_gens]
-            res = R.zero()
-            for part in self_parts:
-                prod = R.one()
-                for p in part:
-                    res_sum = sum([x_gens1[i] ** p - y_gens1[i] ** p for i in range(n)])
-                    prod *= res_sum
-                res += self_parts[part] * prod
+            res = sum([self_parts[part] * 
+                       prod([sum([x_gens1[i] ** p - y_gens1[i] ** p 
+                                  for i in range(n)]) 
+                                  for p in part]) 
+                                  for part in self_parts])
             return res
 
-        def plethysm(self, part):
-            r"""
-            Return the plethysm of ``self`` with ``part``.
-
-            INPUT:
-
-            - ``part`` -- a partition
-            """
-            R = self.base_ring()
-            phi = R.one()
-            p_sym = SymmetricFunctions(R).p()
-            for p in part:
-                a = tensor([p_sym[p], R.one()])
-                b = (-1) ** (p) * tensor([R.one(), p_sym[p]])
-                phi *= a + b
-            return phi.section() # Debug
-
-# Use import statements prod for expand
-# Debug all functions
+# Debug .section()
 # I added self._base to sym. It's messing with the ring.
+# Set variables for each basis
