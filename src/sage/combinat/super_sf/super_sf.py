@@ -58,12 +58,11 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
             sage: R = SuperSymmetricFunctions(QQ)
             sage: TestSuite(R).run()
         """
-        self._base = R
         assert R in Fields() or R in Rings()
         cat = GradedHopfAlgebras(R).Commutative().Cocommutative()
         if R in PrincipalIdealDomains():
             cat &= UniqueFactorizationDomains()
-        Parent.__init__(self, category=cat.WithRealizations())
+        Parent.__init__(self, base=R, category=cat.WithRealizations())
 
     def _repr_(self):
         r"""

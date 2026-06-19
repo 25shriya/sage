@@ -156,5 +156,4 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             return res
 
 # Debug .section()
-# I added self._base to sym. It's messing with the ring.
 # TestSuite() cases?
