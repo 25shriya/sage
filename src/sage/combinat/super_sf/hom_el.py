@@ -59,8 +59,15 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: h = s.h()
             sage: TestSuite(h).run()
         """
-        self.basis_name = basis_name
-        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False)
+        prefix = ''
+        if basis_name == 'homogeneous':
+            prefix = 'h'
+        elif basis_name == 'elementary':
+            prefix = 'e'
+        else:
+            ValueError("Invalid basis name")
+        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False,
+                                                   prefix=prefix, basis_name=basis_name)
 
     def _repr_(self):
         r"""
@@ -72,7 +79,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: e = s.e()
             sage: e._repr_()
-            Supersymmetric functions over Rational Field in the elementary basis
+            'Supersymmetric functions over Rational Field in the elementary basis'
         """
         return "%s in the %s basis" % (self.realization_of(), self.basis_name)
 
@@ -90,7 +97,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: h = s.h()
             sage: h.coproduct_on_generators(5)
-            B[[1]] # B[[4]] + B[[2]] # B[[3]] + B[[3]] # B[[2]] + B[[4]] # B[[1]] + B[[5]] # B[[]]
+            h[1] # h[4] + h[2] # h[3] + h[3] # h[2] + h[4] # h[1] + h[5] # h[]
         """
         T = self.tensor_square()
         return T.sum_of_monomials((Partition([i]), Partition([n-i])) for i in range(1, n+1))
@@ -106,7 +113,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: h = s.h()
             sage: h.lift_on_gens(3)
-            B[[1, 1, 1]] + 1/4*B[[2, 1]] + 1/18*B[[3]]
+            p[1, 1, 1] + 1/4*p[2, 1] + 1/18*p[3]
         """
         basis_name = self.basis_name
         parts = Partitions(n)

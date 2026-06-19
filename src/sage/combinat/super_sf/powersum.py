@@ -45,7 +45,8 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             sage: p = s.p()
             sage: TestSuite(p).run()
         """
-        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False)
+        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False, 
+                                                   prefix='p', basis_name='powersum')
 
     def _repr_(self):
         r"""
@@ -57,9 +58,9 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             sage: s = SuperSymmetricFunctions(QQ)
             sage: p = s.p()
             sage: p._repr_()
-            Supersymmetric functions over Rational Field in the powersum basis
+            'Supersymmetric functions over Rational Field in the powersum basis'
         """
-        return "%s in the powersum basis" % (self.realization_of())
+        return "%s in the %s basis" % (self.realization_of(), self.basis_name)
 
     def coproduct_on_generators(self, part):
         r"""
@@ -75,11 +76,11 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: p = s.p()
-            sage: p.coproduct_on_generators([3,2])
-            B[[3,2]] # B[[3,2]]
+            sage: p.coproduct_on_generators([3, 2])
+            p[3, 2] # p[3, 2]
         """
         if not isinstance(part, Partition):
-            part = Partition([part])
+            part = Partition(part)
         return tensor([self[part], self[part]])
 
     def antipode_on_basis(self, part):
@@ -98,7 +99,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             sage: from sage.combinat.partition import Partition
             sage: part = Partition([4,4,2])
             sage: p.antipode_on_basis(part)
-            -B[[4, 4, 2]]
+            -p[4, 4, 2]
         """
         if not isinstance(part, Partition):
             part.sort(reverse=True)
@@ -156,4 +157,4 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
 # Debug .section()
 # I added self._base to sym. It's messing with the ring.
-# Set variables for each basis
+# TestSuite() cases?

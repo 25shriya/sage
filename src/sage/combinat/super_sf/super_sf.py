@@ -44,6 +44,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
     EXAMPLES::
 
+        sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
         sage: R = SuperSymmetricFunctions(QQ)
         sage: TestSuite(R).run()
     """
@@ -53,6 +54,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
         EXAMPLES::
 
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: R = SuperSymmetricFunctions(QQ)
             sage: TestSuite(R).run()
         """
@@ -69,6 +71,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
         EXAMPLES::
 
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: R = SuperSymmetricFunctions(QQ)
             sage: R._repr_()
             'Supersymmetric functions over Rational Field'
@@ -85,6 +88,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
         EXAMPLES::
 
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: s.powersum()
             Supersymmetric functions over Rational Field in the powersum basis
@@ -103,6 +107,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
         EXAMPLES::
 
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: s.homogeneous()
             Supersymmetric functions over Rational Field in the homogeneous basis
@@ -121,6 +126,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
         EXAMPLES::
 
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: s.elementary()
             Supersymmetric functions over Rational Field in the elementary basis

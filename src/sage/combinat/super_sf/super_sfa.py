@@ -15,8 +15,12 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
     EXAMPLES::
 
-        sage: SuperSymmetricFunctionsBases()
-        Category of bases of supersymmetric functions
+        sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+        sage: s = SuperSymmetricFunctions(QQ)
+        sage: from sage.combinat.super_sf.super_sfa import SuperSymmetricFunctionsBases
+        sage: s1 = SuperSymmetricFunctionsBases(s)
+        sage: s1
+        Category of bases of Supersymmetric functions over Rational Field
     """
     def _repr_(self):
         r"""
@@ -26,9 +30,10 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
+            sage: from sage.combinat.super_sf.super_sfa import SuperSymmetricFunctionsBases
             sage: s1 = SuperSymmetricFunctionsBases(s)
             sage: s1._repr_()
-            Category of bases of Supersymmetric functions over Rational Field
+            'Category of bases of Supersymmetric functions over Rational Field'
         """
         return "Category of bases of %s" % self.base()
 
@@ -40,6 +45,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
+            sage: from sage.combinat.super_sf.super_sfa import SuperSymmetricFunctionsBases
             sage: s1 = SuperSymmetricFunctionsBases(s)
             sage: s1
             Category of bases of Supersymmetric functions over Rational Field
@@ -93,10 +99,10 @@ class GradedSuperSymBases(Category_realization_of_parent):
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
-            sage: from sage.combinat.super_sf.super_sfa import FilteredSuperSymBases
+            sage: from sage.combinat.super_sf.super_sfa import GradedSuperSymBases
             sage: f = GradedSuperSymBases(s)
             sage: f._repr_()
-            Category of graded bases of Supersymmetric functions over Rational Field
+            'Category of graded bases of Supersymmetric functions over Rational Field'
         """
         return "Category of graded bases of %s" % self.base()
 
@@ -121,7 +127,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
     r"""
     Abstract class for Supersymmetric Function Algebras.
     """
-    def __init__(self, SuperSym=None, graded=True):
+    def __init__(self, SuperSym=None, graded=True, prefix=None, basis_name=None):
         r"""
         Initialize a supersymmetric function algebra.
 
@@ -140,6 +146,9 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             sage: isinstance(p, SuperSymAlgebra_generic)
             True
         """
+        self.basis_name = basis_name
+        if prefix is not None:
+            self._prefix = prefix
         R = SuperSym.base_ring()
         from sage.categories.commutative_rings import CommutativeRings
         if R not in CommutativeRings():
@@ -148,7 +157,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             cat = GradedSuperSymBases(SuperSym)
         else:  # Right now, there are no non-graded bases. Do we have filtered bases in Supersym case?
             cat = SuperSymmetricFunctionsBases(SuperSym)
-        CombinatorialFreeModule.__init__(self, R, category=cat)
+        CombinatorialFreeModule.__init__(self, R, category=cat, bracket='', prefix=prefix)
 
     def __getitem__(self, c):
         r"""
@@ -164,11 +173,11 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: p = s.p()
             sage: p[5,4,3]
-            B[[5, 4, 3]]
+            p[5, 4, 3]
             sage: from sage.combinat.partition import Partition
             sage: part = Partition([3,2])
             sage: p[part]
-            B[[3, 2]]
+            p[3, 2]
         """
         if not isinstance(c, Partition):
             if c not in ZZ:
@@ -200,7 +209,7 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: e = s.e()
             sage: e.product_on_basis([3,2], [6,5])
-            B[[6, 5, 3, 2]]
+            e[6, 5, 3, 2]
         """
         m = list(left) + list(right)
         m.sort(reverse=True)
@@ -219,17 +228,19 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: h = s.h()
+            sage: from sage.combinat.partition import Partition
+            sage: part = Partition([4,4,2])
             sage: h.coproduct_on_basis(part)
-            B[[1, 1, 1]] # B[[3, 3, 1]] + 2*B[[2, 1, 1]] # B[[3, 2, 1]] + 
-            B[[2, 1, 1]] # B[[3, 3]] + B[[2, 2, 1]] # B[[2, 2, 1]] +
-            2*B[[2, 2, 1]] # B[[3, 2]] + B[[2, 2, 2]] # B[[2, 2]] +
-            2*B[[3, 1, 1]] # B[[3, 1, 1]] + 2*B[[3, 2, 1]] # B[[2, 1, 1]] + 
-            2*B[[3, 2, 1]] # B[[3, 1]] + 2*B[[3, 2, 2]] # B[[2, 1]] + 
-            B[[3, 3, 1]] # B[[1, 1, 1]] + B[[3, 3, 2]] # B[[1, 1]] + 
-            2*B[[4, 1, 1]] # B[[3, 1]] + 2*B[[4, 2, 1]] # B[[2, 1]] + 
-            2*B[[4, 2, 1]] # B[[3]] + 2*B[[4, 2, 2]] # B[[2]] + 
-            2*B[[4, 3, 1]] # B[[1, 1]] + 2*B[[4, 3, 2]] # B[[1]] + 
-            B[[4, 4, 1]] # B[[1]] + B[[4, 4, 2]] # B[[]]
+            h[1, 1, 1] # h[3, 3, 1] + 2*h[2, 1, 1] # h[3, 2, 1] + 
+            h[2, 1, 1] # h[3, 3] + h[2, 2, 1] # h[2, 2, 1] + 
+            2*h[2, 2, 1] # h[3, 2] + h[2, 2, 2] # h[2, 2] + 
+            2*h[3, 1, 1] # h[3, 1, 1] + 2*h[3, 2, 1] # h[2, 1, 1] + 
+            2*h[3, 2, 1] # h[3, 1] + 2*h[3, 2, 2] # h[2, 1] + 
+            h[3, 3, 1] # h[1, 1, 1] + h[3, 3, 2] # h[1, 1] + 
+            2*h[4, 1, 1] # h[3, 1] + 2*h[4, 2, 1] # h[2, 1] + 
+            2*h[4, 2, 1] # h[3] + 2*h[4, 2, 2] # h[2] + 
+            2*h[4, 3, 1] # h[1, 1] + 2*h[4, 3, 2] # h[1] + h[4, 4, 1] # h[1] + 
+            h[4, 4, 2] # h[]
         """
         T = self.tensor_square()
         return T.prod(self.coproduct_on_generators(p) for p in mu)
