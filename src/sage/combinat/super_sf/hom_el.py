@@ -66,7 +66,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             prefix = 'e'
         else:
             raise ValueError("Invalid basis name")
-        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=False,
+        super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=True,
                                                    prefix=prefix, basis_name=basis_name)
 
     def _repr_(self):

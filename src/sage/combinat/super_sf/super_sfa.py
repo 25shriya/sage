@@ -123,6 +123,26 @@ class GradedSuperSymBases(Category_realization_of_parent):
         cat = HopfAlgebras(self.base().base_ring()).Commutative().WithBasis().Graded()
         return [SuperSymmetricFunctionsBases(self.base()), cat]
 
+    def counit(self, element):
+        r"""
+        Return the counit of ``element``.
+
+        The counit is the constant term of ``element``.
+
+        INPUT:
+
+        - ``element`` -- element in a basis of the ring of supersymmetric functions
+
+        EXAMPLES::
+
+            sage: Sym = SuperSymmetricFunctions(QQ)
+            sage: p = Sym.powersum()
+            sage: f = 2*p[2,1] + 3*p[[]]
+            sage: f.counit()
+            3
+        """
+        return element.coefficient([])
+
 class SuperSymAlgebra_generic(CombinatorialFreeModule):
     r"""
     Abstract class for Supersymmetric Function Algebras.

@@ -64,6 +64,18 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
             cat &= UniqueFactorizationDomains()
         Parent.__init__(self, base=R, category=cat.WithRealizations())
 
+    def a_realization(self):
+        r"""
+        Return a particular realization of ``self`` (the powersum basis).
+
+        EXAMPLES::
+
+            sage: Sym = SuperSymmetricFunctions(QQ)
+            sage: Sym.a_realization()
+            Supersymmetric functions over Rational Field in the powersum basis
+        """
+        return self.powersum()
+
     def _repr_(self):
         r"""
         Return the string representation of ``self``.
