@@ -106,7 +106,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             part = Partition(part)
         return -self[part]
 
-    def plethysm(self, part):
+    def lift_on_basis(self, part):
         r"""
         Return the plethysm of ``self`` with ``part``.
 
@@ -118,7 +118,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         phi = R.one()
         p_sym = SymmetricFunctions(R).p()
         phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1 ** p) * tensor([p_sym.one(), p_sym[p]]) for p in part])
-        return phi #.section() - Debug. Call this lift_on_basis - specifc to each basis. For retract - Add @lazyattributes (lift will be a lazy attribute) - returns module morphism.
+        return phi # Call this lift_on_basis - specifc to each basis. For retract - Add @lazyattributes (lift will be a lazy attribute) - returns module morphism.
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, n, alphabet_x='x', alphabet_y='y'):
@@ -155,6 +155,6 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                                   for part in self_parts])
             return res
 
-# Debug .section()
-# TestSuite() cases?
-# Coproduct, antipode, counit. "_test_antipode??": Use this to see what test is failing.
+# Debug lift and retract
+# TestSuite() cases? - can I skip "fraction_field" test for supersym?
+# what's antipode for homogeneous and elementary?
