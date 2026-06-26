@@ -78,6 +78,42 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             """
             return _Partitions([])
 
+        def is_integral_domain(self, proof=True):
+            """
+            Return whether ``self`` is an integral domain. (It is if
+            and only if the base ring is an integral domain.)
+
+            INPUT:
+
+            - ``proof`` -- an optional argument (default: value: ``True``)
+
+            EXAMPLES::
+
+                sage: s = SuperSymmetricFunctions(QQ).h()
+                sage: s.is_integral_domain()
+                True
+
+                sage: s = SuperSymmetricFunctions(Zmod(14)).p()
+                sage: s.is_integral_domain()
+                False
+            """
+            return self.base_ring().is_integral_domain()
+
+        def fraction_field(self):
+            r"""
+            Return the fraction field of ``self``.
+
+            EXAMPLES::
+
+                sage: s = SuperSymmetricFunctions(QQ).p()
+                sage: s.fraction_field()
+                Fraction Field of Supersymmetric Functions over Rational Field in the powersum basis
+            """
+            if not self.is_integral_domain():
+                raise TypeError("self must be an integral domain")
+            from sage.rings.fraction_field import FractionField_generic
+            return FractionField_generic(self)
+
 class GradedSuperSymBases(Category_realization_of_parent):
     r"""
     The category of graded bases of supersymmetric functions.
@@ -123,25 +159,29 @@ class GradedSuperSymBases(Category_realization_of_parent):
         cat = HopfAlgebras(self.base().base_ring()).Commutative().WithBasis().Graded()
         return [SuperSymmetricFunctionsBases(self.base()), cat]
 
-    def counit(self, element):
-        r"""
-        Return the counit of ``element``.
+    class ParentMethods:
+        def counit(self, element):
+            r"""
+            Return the counit of ``element``.
 
-        The counit is the constant term of ``element``.
+            The counit is the constant term of ``element``.
 
-        INPUT:
+            INPUT:
 
-        - ``element`` -- element in a basis of the ring of supersymmetric functions
+            - ``element`` -- element in a basis of the ring of supersymmetric functions
 
-        EXAMPLES::
+            EXAMPLES::
 
-            sage: Sym = SuperSymmetricFunctions(QQ)
-            sage: p = Sym.powersum()
-            sage: f = 2*p[2,1] + 3*p[[]]
-            sage: f.counit()
-            3
-        """
-        return element.coefficient([])
+                sage: Sym = SuperSymmetricFunctions(QQ)
+                sage: p = Sym.powersum()
+                sage: f = 2*p[2,1] + 3*p[[]]
+                sage: f.counit()
+                3
+            """
+            if element == 0:
+                return self.zero()
+            else:
+                return element.coefficient(Partition([]))
 
 class SuperSymAlgebra_generic(CombinatorialFreeModule):
     r"""
@@ -175,7 +215,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             raise TypeError("argument R must be a commutative ring")
         if graded:
             cat = GradedSuperSymBases(SuperSym)
-        else:  # Right now, there are no non-graded bases. Do we have filtered bases in Supersym case?
+        else:
             cat = SuperSymmetricFunctionsBases(SuperSym)
         CombinatorialFreeModule.__init__(self, R, category=cat, bracket='', prefix=prefix)
 
