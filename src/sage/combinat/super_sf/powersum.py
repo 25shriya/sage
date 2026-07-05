@@ -11,6 +11,7 @@ from sage.combinat.partition import Partition
 from sage.categories.tensor import tensor
 from sage.combinat.sf.sf import SymmetricFunctions
 from sage.misc.misc_c import prod
+from sage.misc.lazy_attribute import lazy_attribute
 
 class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative):
     r"""
@@ -106,7 +107,8 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             part = Partition(part)
         return -self[part]
 
-    def lift_on_basis(self, part):
+    @lazy_attribute
+    def lift_on_basis(self):
         r"""
         Return the plethysm of ``self`` with ``part``.
 
@@ -115,10 +117,19 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         - ``part`` -- a partition
         """
         R = self.base_ring()
-        phi = R.one()
         p_sym = SymmetricFunctions(R).p()
-        phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1 ** p) * tensor([p_sym.one(), p_sym[p]]) for p in part])
-        return phi # Call this lift_on_basis - specifc to each basis. For retract - Add @lazyattributes (lift will be a lazy attribute) - returns module morphism.
+        T = p_sym.tensor_square()
+        def lift_part(part):
+            if not part:
+                return tensor([p_sym.one(), p_sym.one()])
+            phi = R.one()
+            phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1) ** p * tensor([p_sym.one(), p_sym[p]]) for p in part])
+            return phi
+        return self.module_morphism(lift_part, triangular='upper', codomain=T)
+
+    @lazy_attribute
+    def retract(self):
+        return self.lift_on_basis().section()
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, n, alphabet_x='x', alphabet_y='y'):
@@ -155,6 +166,10 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                                   for part in self_parts])
             return res
 
-# Debug lift and retract
-# TestSuite() cases? - can I skip "fraction_field" test for supersym?
-# what's antipode for homogeneous and elementary?
+# Murnaghan Nakyama rule for powersum to homogeneous - other way round!
+# Symmetric Powersum to homogeneous - then convert to super! Use monomial_coefficients()
+# omega on supersym is omega on each set of variables.
+
+# Supersym - lift and retract for bases - Should it take list or element as input? Also lazy attribute not working
+# What is plethysm to h # e and e # h?
+# Documentation - something wrong. Supersym not showing up

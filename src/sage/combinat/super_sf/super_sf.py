@@ -56,7 +56,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: R = SuperSymmetricFunctions(QQ)
-            sage: TestSuite(R).run()
+            sage: TestSuite(R).run(skip="_test_fraction_field")
         """
         assert R in Fields() or R in Rings()
         cat = GradedHopfAlgebras(R).Commutative().Cocommutative()

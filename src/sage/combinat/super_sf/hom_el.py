@@ -7,10 +7,12 @@ AUTHORS:
 """
 from . import super_sfa
 from itertools import combinations_with_replacement, combinations
-from sage.combinat.partition import Partitions, Partition
+from sage.combinat.partition import Partitions, Partition, _Partitions
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.functions.other import factorial
 from sage.misc.misc_c import prod
+from sage.categories.tensor import tensor
+from sage.combinat.sf.sf import SymmetricFunctions
 
 class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
     r"""
@@ -82,6 +84,22 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             'Supersymmetric functions over Rational Field in the elementary basis'
         """
         return "%s in the %s basis" % (self.realization_of(), self.basis_name)
+
+    def antipode_on_basis(self, x):
+        if x in _Partitions:
+            return self[x]
+        monomial_coefficients = x.monomial_coefficients()
+        R = self.base_ring()
+        p = SymmetricFunctions(R).p()
+        f = p.zero()
+        for part in monomial_coefficients:
+            f += monomial_coefficients[part] * p.antipode_on_basis(part)
+        h_expr = SymmetricFunctions(R).h()(f)
+        res = self.zero()
+        monomial_coefficients = h_expr.monomial_coefficients()
+        for part in monomial_coefficients:
+            res += monomial_coefficients[part] * self[part]
+        return res
 
     def coproduct_on_generators(self, n):
         r"""

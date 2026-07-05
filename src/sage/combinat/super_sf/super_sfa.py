@@ -8,6 +8,8 @@ from sage.categories.unique_factorization_domains import UniqueFactorizationDoma
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
 from sage.combinat.partition import Partition, _Partitions
 from sage.rings.integer_ring import ZZ
+from sage.categories.tensor import TensorProductsCategory
+from sage.categories.tensor import tensor
 
 class SuperSymmetricFunctionsBases(Category_realization_of_parent):
     r"""
@@ -114,6 +116,20 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             from sage.rings.fraction_field import FractionField_generic
             return FractionField_generic(self)
 
+        def lift(self, x):
+            p = self.base().a_realization()
+            return p.lift_on_basis()(x)
+
+        def retract(self, x):
+            p = self.base().a_realization()
+            return p.retract()(x)
+        
+    class TensorProducts(TensorProductsCategory):
+        class ParentMethods:
+            def antipode_on_basis(self, x):
+                TF = self.tensor_factors()
+                return tensor([F.antipode_on_basis(c) for F, c in zip(TF, x)])
+
 class GradedSuperSymBases(Category_realization_of_parent):
     r"""
     The category of graded bases of supersymmetric functions.
@@ -217,7 +233,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             cat = GradedSuperSymBases(SuperSym)
         else:
             cat = SuperSymmetricFunctionsBases(SuperSym)
-        CombinatorialFreeModule.__init__(self, R, category=cat, bracket='', prefix=prefix)
+        CombinatorialFreeModule.__init__(self, R, basis_keys=_Partitions, category=cat, bracket='', prefix=prefix)
 
     def __getitem__(self, c):
         r"""
