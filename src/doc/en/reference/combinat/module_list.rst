@@ -508,6 +508,16 @@ Comprehensive module list
     sage/combinat/words/morphism
     sage/combinat/words/paths
 
+``sage.combinat.words``
+-----------------------
+
+.. toctree::
+    :maxdepth: 1
+
+    sage.combinat.super_sf.super_sf
+    sage.combinat.super_sf.super_sfa
+    sage.combinat.super_sf.powersum`
+    sage.combinat.super_sf.hom_el
 
 See also
 --------
