@@ -118,7 +118,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         def P(i):
             return Partition([i]) if i else Partition([])
         T = self.tensor_square()
-        return T.sum_of_monomials( (P(j), P(n-j)) for j in range(n+1) )
+        return T.sum_of_monomials( (P(j), P(n-j)) for j in range(n) )
 
     def lift_on_gens(self, n):
         r"""
