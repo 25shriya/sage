@@ -8,8 +8,10 @@ from sage.categories.unique_factorization_domains import UniqueFactorizationDoma
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
 from sage.combinat.partition import Partition, _Partitions
 from sage.rings.integer_ring import ZZ
+from sage.rings.rational_field import QQ
 from sage.categories.tensor import TensorProductsCategory
 from sage.categories.tensor import tensor
+from sage.combinat.sf.sf import SymmetricFunctions
 
 class SuperSymmetricFunctionsBases(Category_realization_of_parent):
     r"""
@@ -65,6 +67,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
         if R in PrincipalIdealDomains:
             categories.append(UniqueFactorizationDomains())
         return categories
+
     class ParentMethods:
         def one_basis(self):
             r"""
@@ -117,11 +120,12 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             return FractionField_generic(self)
 
         def lift(self, x):
-            p = self.base().a_realization()
-            return p.lift_on_basis()(x)
+            p = self.realization_of().a_realization()
+            x = p(x)
+            return p.lift()(x)
 
         def retract(self, x):
-            p = self.base().a_realization()
+            p = self.realization_of().a_realization()
             return p.retract()(x)
         
     class TensorProducts(TensorProductsCategory):
@@ -262,6 +266,51 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
                 c = [c]
             c = Partition(mu=c)
         return self.monomial(c)
+
+    def _element_constructor_(self, x):
+        """
+        Supersym = self.realization_of()
+        R = self.base_ring()
+        p = Supersym.p()
+        h = Supersym.h()
+        e = Supersym.e()
+        if x.parent().basis_name == 'powersum':
+            if self.basis_name == 'homogeneous':
+                return p.lift_on_gens(x)
+            else:
+                return p.lift_on_gens(x, 'elementary')
+        elif x.parent().basis_name == 'homogeneous':
+            if self.basis_name == 'powersum':
+                res = R.zero()
+                for part in x.monomial_coefficients():
+                    prod = R.one()
+                    for k in part:
+                        prod *= h.lift_on_gens(k)
+                    res += x.monomial_coefficients()[part] * prod
+                return res
+            else:
+                return e._from_dict(x.monomial_coefficients())
+        else:
+            if self.basis_name == 'powersum':
+                res = R.zero()
+                for part in x.monomial_coefficients():
+                    prod = R.one()
+                    for k in part:
+                        prod *= e.lift_on_gens(k)
+                    res += x.monomial_coefficients()[part] * prod
+                return res
+            else:
+                return h._from_dict(x.monomial_coefficients())
+        """
+        old_basis = x.parent().basis_name
+        new_basis = self.basis_name
+        R = self.base_ring()
+        Sym = SymmetricFunctions(R)
+        old_basis_sym = getattr(Sym, old_basis)()
+        new_basis_sym = getattr(Sym, new_basis)()
+        new_x = old_basis_sym._from_dict(x.monomial_coefficients())
+        res = new_basis_sym(new_x)
+        return self._from_dict(d=res.monomial_coefficients())
 
 class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
     r"""
