@@ -107,8 +107,29 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             part = Partition(part)
         return -self[part]
 
-    @lazy_attribute
-    def lift_on_basis(self):
+    def lift_on_gens(self, el, basis_name='homogeneous'):
+        R = self.base_ring()
+        if basis_name == 'homogeneous':
+            new_sym = SymmetricFunctions(R).h()
+            new_sym2 = self.realization_of().h()
+        elif basis_name == 'elementary':
+            new_sym = SymmetricFunctions(R).e()
+            new_sym2 = self.realization_of().e()
+        p_sym = SymmetricFunctions(R).p()
+        new_el = p_sym._from_element(el)
+        new_el2 = new_sym(new_el)
+        return new_sym2._from_dict(new_el2.monomial_coefficients())
+
+    def _lift_on_basis(self, part):
+        R = self.base_ring()
+        p_sym = SymmetricFunctions(R).p()
+        if not part:
+            return tensor([p_sym.one(), p_sym.one()])
+        phi = R.one()
+        phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1) ** p * tensor([p_sym.one(), p_sym[p]]) for p in part])
+        return phi
+
+    def lift(self):
         r"""
         Return the plethysm of ``self`` with ``part``.
 
@@ -119,17 +140,10 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         R = self.base_ring()
         p_sym = SymmetricFunctions(R).p()
         T = p_sym.tensor_square()
-        def lift_part(part):
-            if not part:
-                return tensor([p_sym.one(), p_sym.one()])
-            phi = R.one()
-            phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1) ** p * tensor([p_sym.one(), p_sym[p]]) for p in part])
-            return phi
-        return self.module_morphism(lift_part, triangular='upper', codomain=T)
+        return self.module_morphism(self._lift_on_basis, triangular='upper', codomain=T)
 
-    @lazy_attribute
     def retract(self):
-        return self.lift_on_basis().section()
+        return self.lift().section()
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, n, alphabet_x='x', alphabet_y='y'):
@@ -165,11 +179,3 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                                   for p in part])
                                   for part in self_parts])
             return res
-
-# Murnaghan Nakyama rule for powersum to homogeneous - other way round!
-# Symmetric Powersum to homogeneous - then convert to super! Use monomial_coefficients()
-# omega on supersym is omega on each set of variables.
-
-# Supersym - lift and retract for bases - Should it take list or element as input? Also lazy attribute not working
-# What is plethysm to h # e and e # h?
-# Documentation - something wrong. Supersym not showing up
