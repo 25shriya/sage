@@ -124,11 +124,12 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         R = self.base_ring()
         p_sym = SymmetricFunctions(R).p()
         if not part:
-            return tensor([p_sym.one(), p_sym.one()])
-        phi = R.one()
+            return p_sym.tensor_square().one()
+        phi = R.one() # Useless
         phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1) ** p * tensor([p_sym.one(), p_sym[p]]) for p in part])
         return phi
 
+    @lazy_attribute
     def lift(self):
         r"""
         Return the plethysm of ``self`` with ``part``.
@@ -140,10 +141,11 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         R = self.base_ring()
         p_sym = SymmetricFunctions(R).p()
         T = p_sym.tensor_square()
-        return self.module_morphism(self._lift_on_basis, triangular='upper', codomain=T)
+        return self.module_morphism(self._lift_on_basis, triangular='upper', codomain=T, inverse_on_support="compute")
 
+    @lazy_attribute
     def retract(self):
-        return self.lift().section()
+        return self.lift.section()
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
         def expand(self, n, alphabet_x='x', alphabet_y='y'):
@@ -179,3 +181,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                                   for p in part])
                                   for part in self_parts])
             return res
+
+# Retract is not triangular.
+# Track what section() is doing - it uses preimage - this needs an inverse on support to give the right output.
+# Define an inverse on support appropriately. Pass that as a module morphism argument
