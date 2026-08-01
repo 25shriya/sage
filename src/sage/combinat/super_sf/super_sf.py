@@ -70,6 +70,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
         EXAMPLES::
 
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: Sym = SuperSymmetricFunctions(QQ)
             sage: Sym.a_realization()
             Supersymmetric functions over Rational Field in the powersum basis
