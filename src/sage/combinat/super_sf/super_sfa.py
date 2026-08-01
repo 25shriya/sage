@@ -124,6 +124,14 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             ``SupersymFunctionAlgebra_powersum`` to 
             ``SymmetricFunctionAlgebra_power # SymmetricFunctionAlgebra_power``.
 
+            INPUT:
+
+            - ``x`` -- element of ``self``
+
+            OUTPUT:
+
+            - the value of ``x`` under the plethysm to the tensor product of Sym
+
             EXAMPLES::
 
                 sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
@@ -152,9 +160,18 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
         def retract(self, x):
             r"""
-            Return the value under retracting the plethysm from
+            Return the value under retraction of the plethysm from
             ``SupersymFunctionAlgebra_powersum`` to 
             ``SymmetricFunctionAlgebra_power # SymmetricFunctionAlgebra_power``.
+
+            INPUT:
+
+            - ``x`` -- element of tensor product of powersum symmetric functions
+
+            OUTPUT:
+
+            - Value under retraction of plethysm to tensor product of powersum
+              symmetric functions
 
             EXAMPLES::
 
@@ -307,39 +324,25 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
         return self.monomial(c)
 
     def _element_constructor_(self, x):
-        """
-        Supersym = self.realization_of()
-        R = self.base_ring()
-        p = Supersym.p()
-        h = Supersym.h()
-        e = Supersym.e()
-        if x.parent().basis_name == 'powersum':
-            if self.basis_name == 'homogeneous':
-                return p.lift_on_gens(x)
-            else:
-                return p.lift_on_gens(x, 'elementary')
-        elif x.parent().basis_name == 'homogeneous':
-            if self.basis_name == 'powersum':
-                res = R.zero()
-                for part in x.monomial_coefficients():
-                    prod = R.one()
-                    for k in part:
-                        prod *= h.lift_on_gens(k)
-                    res += x.monomial_coefficients()[part] * prod
-                return res
-            else:
-                return e._from_dict(x.monomial_coefficients())
-        else:
-            if self.basis_name == 'powersum':
-                res = R.zero()
-                for part in x.monomial_coefficients():
-                    prod = R.one()
-                    for k in part:
-                        prod *= e.lift_on_gens(k)
-                    res += x.monomial_coefficients()[part] * prod
-                return res
-            else:
-                return h._from_dict(x.monomial_coefficients())
+        r"""
+        Convert ``x`` to ``self``.
+
+        INPUT:
+
+        - ``x`` -- an element of supersymmetric functions
+
+        EXAMPLES::
+
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: p = s.p()
+            sage: h = s.h()
+            sage: p(h[5])
+            1/120*p[1, 1, 1, 1, 1] + 1/12*p[2, 1, 1, 1] + 1/8*p[2, 2, 1] +
+            1/6*p[3, 1, 1] + 1/6*p[3, 2] + 1/4*p[4, 1] + 1/5*p[5]
+            sage: e = s.e()
+            sage: h(e[3,1])
+            h[1, 1, 1, 1] - 2*h[2, 1, 1] + h[3, 1]
         """
         old_basis = x.parent().basis_name
         new_basis = self.basis_name
