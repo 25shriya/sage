@@ -83,7 +83,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             return _Partitions([])
 
         def is_integral_domain(self, proof=True):
-            """
+            r"""
             Return whether ``self`` is an integral domain. (It is if
             and only if the base ring is an integral domain.)
 
@@ -119,14 +119,54 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             return FractionField_generic(self)
 
         def lift(self, x):
+            r"""
+            Return value of ``x`` under plethysm from
+            ``SupersymFunctionAlgebra_powersum`` to 
+            ``SymmetricFunctionAlgebra_power # SymmetricFunctionAlgebra_power``.
+
+            EXAMPLES::
+
+                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+                sage: s = SuperSymmetricFunctions(QQ)
+                sage: h = s.h()
+                sage: h.lift(h[5])
+                -1/120*p[] # p[1, 1, 1, 1, 1] - 1/12*p[] # p[2, 1, 1, 1] -
+                1/8*p[] # p[2, 2, 1] - 1/6*p[] # p[3, 1, 1] - 1/6*p[] # p[3, 2] -
+                1/4*p[] # p[4, 1] - 1/5*p[] # p[5] +
+                1/24*p[1] # p[1, 1, 1, 1] + 1/4*p[1] # p[2, 1, 1] +
+                1/8*p[1] # p[2, 2] + 1/3*p[1] # p[3, 1] + 1/4*p[1] # p[4] -
+                1/12*p[1, 1] # p[1, 1, 1] - 1/4*p[1, 1] # p[2, 1] -
+                1/6*p[1, 1] # p[3] + 1/12*p[1, 1, 1] # p[1, 1] +
+                1/12*p[1, 1, 1] # p[2] - 1/24*p[1, 1, 1, 1] # p[1] +
+                1/120*p[1, 1, 1, 1, 1] # p[] - 1/12*p[2] # p[1, 1, 1] -
+                1/4*p[2] # p[2, 1] - 1/6*p[2] # p[3] + 1/4*p[2, 1] # p[1, 1] +
+                1/4*p[2, 1] # p[2] - 1/4*p[2, 1, 1] # p[1] +
+                1/12*p[2, 1, 1, 1] # p[] - 1/8*p[2, 2] # p[1] +
+                1/8*p[2, 2, 1] # p[] + 1/6*p[3] # p[1, 1] + 1/6*p[3] # p[2] -
+                1/3*p[3, 1] # p[1] + 1/6*p[3, 1, 1] # p[] + 1/6*p[3, 2] # p[] -
+                1/4*p[4] # p[1] + 1/4*p[4, 1] # p[] + 1/5*p[5] # p[]
+            """
             p = self.realization_of().a_realization()
             x = p(x)
             return p.lift(x)
 
         def retract(self, x):
+            r"""
+            Return the value under retracting the plethysm from
+            ``SupersymFunctionAlgebra_powersum`` to 
+            ``SymmetricFunctionAlgebra_power # SymmetricFunctionAlgebra_power``.
+
+            EXAMPLES::
+
+                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+                sage: s = SuperSymmetricFunctions(QQ)
+                sage: e = s.e()
+                sage: e.retract(e.lift(e[5]))
+                e[5]
+            """
             p = self.realization_of().a_realization()
             return self(p.retract(x))
-        
+
     class TensorProducts(TensorProductsCategory):
         class ParentMethods:
             def antipode_on_basis(self, x):
