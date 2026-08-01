@@ -122,11 +122,11 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
         def lift(self, x):
             p = self.realization_of().a_realization()
             x = p(x)
-            return p.lift()(x)
+            return p.lift(x)
 
         def retract(self, x):
             p = self.realization_of().a_realization()
-            return p.retract()(x)
+            return p.retract(x)
         
     class TensorProducts(TensorProductsCategory):
         class ParentMethods:
