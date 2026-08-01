@@ -8,7 +8,6 @@ from sage.categories.unique_factorization_domains import UniqueFactorizationDoma
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
 from sage.combinat.partition import Partition, _Partitions
 from sage.rings.integer_ring import ZZ
-from sage.rings.rational_field import QQ
 from sage.categories.tensor import TensorProductsCategory
 from sage.categories.tensor import tensor
 from sage.combinat.sf.sf import SymmetricFunctions
@@ -126,7 +125,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
         def retract(self, x):
             p = self.realization_of().a_realization()
-            return p.retract(x)
+            return self(p.retract(x))
         
     class TensorProducts(TensorProductsCategory):
         class ParentMethods:
