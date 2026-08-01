@@ -11,8 +11,6 @@ from sage.combinat.partition import Partitions, Partition, _Partitions
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.functions.other import factorial
 from sage.misc.misc_c import prod
-from sage.categories.tensor import tensor
-from sage.combinat.sf.sf import SymmetricFunctions
 
 class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
     r"""
@@ -86,6 +84,46 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         return "%s in the %s basis" % (self.realization_of(), self.basis_name)
 
     def antipode_by_coercion(self, x):
+        r"""
+        Return the antipode of ``x``.
+
+        INPUT:
+
+        - ``x`` -- a partition, or element of ``self``
+
+        OUTPUT:
+
+        - the result of the antipode on ``x`` (or ``self[x]``)
+
+        EXAMPLES::
+
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: e = s.e()
+            sage: f = e[6,5]
+            sage: e.antipode_by_coercion(f)
+            -e[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] +
+            9*e[2, 1, 1, 1, 1, 1, 1, 1, 1, 1] -
+            29*e[2, 2, 1, 1, 1, 1, 1, 1, 1] + 40*e[2, 2, 2, 1, 1, 1, 1, 1] -
+            22*e[2, 2, 2, 2, 1, 1, 1] + 3*e[2, 2, 2, 2, 2, 1] -
+            7*e[3, 1, 1, 1, 1, 1, 1, 1, 1] + 39*e[3, 2, 1, 1, 1, 1, 1, 1] -
+            64*e[3, 2, 2, 1, 1, 1, 1] + 33*e[3, 2, 2, 2, 1, 1] -
+            2*e[3, 2, 2, 2, 2] - 13*e[3, 3, 1, 1, 1, 1, 1] +
+            30*e[3, 3, 2, 1, 1, 1] - 15*e[3, 3, 2, 2, 1] - 3*e[3, 3, 3, 1, 1] +
+            2*e[3, 3, 3, 2] + 5*e[4, 1, 1, 1, 1, 1, 1, 1] -
+            24*e[4, 2, 1, 1, 1, 1, 1] + 29*e[4, 2, 2, 1, 1, 1] -
+            8*e[4, 2, 2, 2, 1] + 17*e[4, 3, 1, 1, 1, 1] -
+            24*e[4, 3, 2, 1, 1] + 4*e[4, 3, 2, 2] + 2*e[4, 3, 3, 1] -
+            6*e[4, 4, 1, 1, 1] + 4*e[4, 4, 2, 1] - 3*e[5, 1, 1, 1, 1, 1, 1] +
+            13*e[5, 2, 1, 1, 1, 1] - 12*e[5, 2, 2, 1, 1] + e[5, 2, 2, 2] -
+            10*e[5, 3, 1, 1, 1] + 10*e[5, 3, 2, 1] - e[5, 3, 3] +
+            7*e[5, 4, 1, 1] - 2*e[5, 4, 2] - 2*e[5, 5, 1] +
+            e[6, 1, 1, 1, 1, 1] - 4*e[6, 2, 1, 1, 1] + 3*e[6, 2, 2, 1] +
+            3*e[6, 3, 1, 1] - 2*e[6, 3, 2] - 2*e[6, 4, 1] + e[6, 5]
+            sage: h = s.h()
+            sage: h.antipode_by_coercion(h[2])
+            h[1, 1] - h[2]
+        """
         if x in _Partitions:
             return self[x]
         if self.basis_name == 'homogeneous':
@@ -113,7 +151,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: h = s.h()
             sage: h.coproduct_on_generators(5)
-            h[1] # h[4] + h[2] # h[3] + h[3] # h[2] + h[4] # h[1] + h[5] # h[]
+            h[] # h[5] + h[1] # h[4] + h[2] # h[3] + h[3] # h[2] + h[4] # h[1]
         """
         def P(i):
             return Partition([i]) if i else Partition([])

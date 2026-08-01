@@ -107,20 +107,29 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             part = Partition(part)
         return -self[part]
 
-    def lift_on_gens(self, el, basis_name='homogeneous'):
-        R = self.base_ring()
-        if basis_name == 'homogeneous':
-            new_sym = SymmetricFunctions(R).h()
-            new_sym2 = self.realization_of().h()
-        elif basis_name == 'elementary':
-            new_sym = SymmetricFunctions(R).e()
-            new_sym2 = self.realization_of().e()
-        p_sym = SymmetricFunctions(R).p()
-        new_el = p_sym._from_element(el)
-        new_el2 = new_sym(new_el)
-        return new_sym2._from_dict(new_el2.monomial_coefficients())
-
     def _lift_on_basis(self, part):
+        r"""
+            Return the value of ``self[part]`` under the plethysm.
+
+            INPUT:
+
+            - ``part`` -- a partition
+
+            OUTPUT:
+
+            - value under the plethysm in the tensor product of powersum symmetric functions
+
+            EXAMPLES::
+
+                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+                sage: s = SuperSymmetricFunctions(QQ)
+                sage: p = s.p()
+                sage: from sage.combinat.partition import Partition
+                sage: part = Partition([4,4,2])
+                sage: p._lift_on_basis(part)
+                p[] # p[4, 4, 2] + p[2] # p[4, 4] + 2*p[4] # p[4, 2] +
+                2*p[4, 2] # p[4] + p[4, 4] # p[2] + p[4, 4, 2] # p[]
+        """
         R = self.base_ring()
         p_sym = SymmetricFunctions(R).p()
         if not part:
@@ -132,11 +141,17 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
     @lazy_attribute
     def lift(self):
         r"""
-        Return the plethysm of ``self`` with ``part``.
+        Return the plethysm of ``self``.
 
-        INPUT:
+        EXAMPLES::
 
-        - ``part`` -- a partition
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: p = s.p()
+            sage: p.lift
+            Generic morphism:
+            From: Supersymmetric functions over Rational Field in the powersum basis
+            To:   Symmetric Functions over Rational Field in the powersum basis # Symmetric Functions over Rational Field in the powersum basis
         """
         R = self.base_ring()
         p_sym = SymmetricFunctions(R).p()
@@ -146,6 +161,19 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
     @lazy_attribute
     def retract(self):
+        r"""
+        Return retract of plethysm of ``self``.
+
+        EXAMPLES::
+
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: p = s.p()
+            sage: p.retract
+            Generic morphism:
+            From: Symmetric Functions over Rational Field in the powersum basis # Symmetric Functions over Rational Field in the powersum basis
+            To:   Supersymmetric functions over Rational Field in the powersum basis
+        """
         return self.lift.section()
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):
@@ -182,3 +210,6 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                                   for p in part])
                                   for part in self_parts])
             return res
+
+# Issues: TensorProductCategory antipode_on_basis inaccessible.
+# TestSuite failing for antipode all of a sudden - this is after I updated SageMath.

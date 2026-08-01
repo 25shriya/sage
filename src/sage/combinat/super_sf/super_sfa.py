@@ -186,11 +186,11 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             p = self.realization_of().a_realization()
             return self(p.retract(x))
 
-    class TensorProducts(TensorProductsCategory):
-        class ParentMethods:
-            def antipode_on_basis(self, x):
-                TF = self.tensor_factors()
-                return tensor([F.antipode_on_basis(c) for F, c in zip(TF, x)])
+    # class TensorProducts(TensorProductsCategory):
+    #     class ParentMethods:
+    #         def antipode_on_basis(self, x):
+    #             TF = self.tensor_factors()
+    #             return tensor([F.antipode_on_basis(c) for F, c in zip(TF, x)])
 
 class GradedSuperSymBases(Category_realization_of_parent):
     r"""
