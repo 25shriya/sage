@@ -93,6 +93,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
             EXAMPLES::
 
+                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
                 sage: s = SuperSymmetricFunctions(QQ).h()
                 sage: s.is_integral_domain()
                 True
@@ -109,9 +110,10 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
             EXAMPLES::
 
+                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
                 sage: s = SuperSymmetricFunctions(QQ).p()
                 sage: s.fraction_field()
-                Fraction Field of Supersymmetric Functions over Rational Field in the powersum basis
+                Fraction Field of Supersymmetric functions over Rational Field in the powersum basis
             """
             if not self.is_integral_domain():
                 raise TypeError("self must be an integral domain")
@@ -248,6 +250,7 @@ class GradedSuperSymBases(Category_realization_of_parent):
 
             EXAMPLES::
 
+                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
                 sage: Sym = SuperSymmetricFunctions(QQ)
                 sage: p = Sym.powersum()
                 sage: f = 2*p[2,1] + 3*p[[]]
@@ -398,16 +401,16 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
             sage: from sage.combinat.partition import Partition
             sage: part = Partition([4,4,2])
             sage: h.coproduct_on_basis(part)
-            h[1, 1, 1] # h[3, 3, 1] + 2*h[2, 1, 1] # h[3, 2, 1] +
-            h[2, 1, 1] # h[3, 3] + h[2, 2, 1] # h[2, 2, 1] +
-            2*h[2, 2, 1] # h[3, 2] + h[2, 2, 2] # h[2, 2] +
-            2*h[3, 1, 1] # h[3, 1, 1] + 2*h[3, 2, 1] # h[2, 1, 1] +
-            2*h[3, 2, 1] # h[3, 1] + 2*h[3, 2, 2] # h[2, 1] +
-            h[3, 3, 1] # h[1, 1, 1] + h[3, 3, 2] # h[1, 1] +
-            2*h[4, 1, 1] # h[3, 1] + 2*h[4, 2, 1] # h[2, 1] +
-            2*h[4, 2, 1] # h[3] + 2*h[4, 2, 2] # h[2] +
-            2*h[4, 3, 1] # h[1, 1] + 2*h[4, 3, 2] # h[1] + h[4, 4, 1] # h[1] +
-            h[4, 4, 2] # h[]
+            h[] # h[4, 4, 2] + 2*h[1] # h[4, 3, 2] + h[1] # h[4, 4, 1] +
+            h[1, 1] # h[3, 3, 2] + 2*h[1, 1] # h[4, 3, 1] +
+            h[1, 1, 1] # h[3, 3, 1] + 2*h[2] # h[4, 2, 2] +
+            2*h[2, 1] # h[3, 2, 2] + 2*h[2, 1] # h[4, 2, 1] +
+            2*h[2, 1, 1] # h[3, 2, 1] + h[2, 2] # h[2, 2, 2] +
+            h[2, 2, 1] # h[2, 2, 1] + 2*h[3] # h[4, 2, 1] +
+            2*h[3, 1] # h[3, 2, 1] + 2*h[3, 1] # h[4, 1, 1] +
+            2*h[3, 1, 1] # h[3, 1, 1] + 2*h[3, 2] # h[2, 2, 1] +
+            2*h[3, 2, 1] # h[2, 1, 1] + h[3, 3] # h[2, 1, 1] +
+            h[3, 3, 1] # h[1, 1, 1]
         """
         T = self.tensor_square()
         return T.prod(self.coproduct_on_generators(p) for p in mu)
