@@ -213,3 +213,4 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
 # Issues: TensorProductCategory antipode_on_basis inaccessible.
 # TestSuite failing for antipode all of a sudden - this is after I updated SageMath.
+# Fraction field test failing too

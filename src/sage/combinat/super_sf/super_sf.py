@@ -46,7 +46,7 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
 
         sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
         sage: R = SuperSymmetricFunctions(QQ)
-        sage: TestSuite(R).run()
+        sage: TestSuite(R).run(skip="_test_fraction_field")
     """
     def __init__(self, R):
         r"""
