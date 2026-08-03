@@ -83,7 +83,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         """
         return "%s in the %s basis" % (self.realization_of(), self.basis_name)
 
-    def antipode_by_coercion(self, x):
+    def antipode(self, x):
         r"""
         Return the antipode of ``x``.
 
@@ -124,18 +124,15 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: h.antipode_by_coercion(h[2])
             h[1, 1] - h[2]
         """
-        if x in _Partitions:
-            return self[x]
         if self.basis_name == 'homogeneous':
             e = self.realization_of().e()
-            el = e._from_dict(x.monomial_coefficients())
-            return self.sum_of_terms([(lam, (-1)**(sum(lam) % 2) * a)
-                                      for lam, a in self(el)])
+            el = e(x)
         elif self.basis_name == 'elementary':
             h = self.realization_of().h()
-            el = h._from_dict(x.monomial_coefficients())
-            return self.sum_of_terms([(lam, (-1)**(sum(lam) % 2) * a)
-                                      for lam, a in self(el)])
+            el = h(x)
+
+        return self.sum_of_terms([(lam, (-1)**(sum(lam) % 2) * a)
+                                    for lam, a in el])
 
     def coproduct_on_generators(self, n):
         r"""
@@ -156,7 +153,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         def P(i):
             return Partition([i]) if i else Partition([])
         T = self.tensor_square()
-        return T.sum_of_monomials( (P(j), P(n-j)) for j in range(n) )
+        return T.sum_of_monomials( (P(j), P(n-j)) for j in range(n+1) )
 
     def lift_on_gens(self, n):
         r"""

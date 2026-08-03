@@ -63,14 +63,14 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         """
         return "%s in the %s basis" % (self.realization_of(), self.basis_name)
 
-    def coproduct_on_generators(self, part):
+    def coproduct_on_generators(self, i):
         r"""
         Return coproduct on generators for power sums `p_\lambda`
         (for partition `\lambda`).
 
         INPUT:
 
-        - ``part`` -- a partition or list
+        - ``i`` -- an integer
 
         EXAMPLES::
 
@@ -80,9 +80,10 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             sage: p.coproduct_on_generators([3, 2])
             p[3, 2] # p[3, 2]
         """
-        if not isinstance(part, Partition):
-            part = Partition(part)
-        return tensor([self[part], self[part]])
+        Pi = Partition([i])
+        P0 = Partition([])
+        T = self.tensor_square()
+        return T.sum_of_monomials([(Pi, P0), (P0, Pi)])
 
     def antipode_on_basis(self, part):
         r"""
