@@ -105,6 +105,8 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         if not isinstance(part, Partition):
             part.sort(reverse=True)
             part = Partition(part)
+        if len(part) % 2 == 0:
+            return self[part]
         return -self[part]
 
     def _lift_on_basis(self, part):
@@ -212,5 +214,4 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             return res
 
 # Issues: TensorProductCategory antipode_on_basis inaccessible.
-# TestSuite failing for antipode all of a sudden - this is after I updated SageMath.
-# Fraction field test failing too
+# antipode - lift to tensor square, take antipode and come back
