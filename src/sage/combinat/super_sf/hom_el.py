@@ -47,6 +47,17 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
 
         * ``'homogeneous'`` - homogeneous basis of supersymmetric functions
         * ``'elementary'`` - elementary basis of supersymmetric functions
+
+    EXAMPLES::
+
+        sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+        sage: s = SuperSymmetricFunctions(QQ)
+        sage: h = s.h()
+        sage: h
+        Supersymmetric functions over Rational Field in the homogeneous basis
+        sage: e = s.e()
+        sage: e
+        Supersymmetric functions over Rational Field in the elementary basis
     """
     def __init__(self, Supersym, basis_name='homogeneous'):
         r"""
@@ -101,7 +112,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: e = s.e()
             sage: f = e[6,5]
-            sage: e.antipode_by_coercion(f)
+            sage: e.antipode(f)
             -e[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] +
             9*e[2, 1, 1, 1, 1, 1, 1, 1, 1, 1] -
             29*e[2, 2, 1, 1, 1, 1, 1, 1, 1] + 40*e[2, 2, 2, 1, 1, 1, 1, 1] -
@@ -121,7 +132,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             e[6, 1, 1, 1, 1, 1] - 4*e[6, 2, 1, 1, 1] + 3*e[6, 2, 2, 1] +
             3*e[6, 3, 1, 1] - 2*e[6, 3, 2] - 2*e[6, 4, 1] + e[6, 5]
             sage: h = s.h()
-            sage: h.antipode_by_coercion(h[2])
+            sage: h.antipode(h[2])
             h[1, 1] - h[2]
         """
         if self.basis_name == 'homogeneous':
