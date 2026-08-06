@@ -7,7 +7,7 @@ AUTHORS:
 """
 from . import super_sfa
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
-from sage.combinat.partition import Partition
+from sage.combinat.partition import _Partitions, Partition
 from sage.categories.tensor import tensor
 from sage.combinat.sf.sf import SymmetricFunctions
 from sage.misc.misc_c import prod
@@ -77,35 +77,35 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: p = s.p()
-            sage: p.coproduct_on_generators([3, 2])
-            p[3, 2] # p[3, 2]
+            sage: p.coproduct_on_generators(3)
+            p[] # p[3] + p[3] # p[]
         """
-        Pi = Partition([i])
-        P0 = Partition([])
+        Pi = _Partitions([i])
+        P0 = _Partitions([])
         T = self.tensor_square()
         return T.sum_of_monomials([(Pi, P0), (P0, Pi)])
 
     def antipode_on_basis(self, part):
         r"""
-        Return the antipode of ``self[partition]``.
+        Return the antipode of ``self[part]``.
 
         INPUT:
 
-        - ``partition`` -- a list or partition
+        - ``part` -- a list or partition
 
         EXAMPLES::
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: p = s.p()
-            sage: from sage.combinat.partition import Partition
-            sage: part = Partition([4,4,2])
+            sage: from sage.combinat.partition import _Partitions
+            sage: part = _Partitions([4,4,2])
             sage: p.antipode_on_basis(part)
             -p[4, 4, 2]
         """
         if not isinstance(part, Partition):
-            part.sort(reverse=True)
-            part = Partition(part)
+            part = sorted(part, reverse=True)
+            part = _Partitions(part)
         if len(part) % 2 == 0:
             return self[part]
         return -self[part]
@@ -127,8 +127,8 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                 sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
                 sage: s = SuperSymmetricFunctions(QQ)
                 sage: p = s.p()
-                sage: from sage.combinat.partition import Partition
-                sage: part = Partition([4,4,2])
+                sage: from sage.combinat.partition import _Partitions
+                sage: part = _Partitions([4,4,2])
                 sage: p._lift_on_basis(part)
                 p[] # p[4, 4, 2] + p[2] # p[4, 4] + 2*p[4] # p[4, 2] +
                 2*p[4, 2] # p[4] + p[4, 4] # p[2] + p[4, 4, 2] # p[]
@@ -213,6 +213,3 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                                   for p in part])
                                   for part in self_parts])
             return res
-
-# Issues: TensorProductCategory antipode_on_basis inaccessible.
-# antipode - lift to tensor square, take antipode and come back

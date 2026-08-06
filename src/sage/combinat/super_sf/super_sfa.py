@@ -189,8 +189,22 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
     class TensorProducts(TensorProductsCategory):
         class ParentMethods:
             def antipode_on_basis(self, x):
+                r"""
+                Return antipode of ``x``.
+
+                EXAMPLES::
+
+                    sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+                    sage: s = SuperSymmetricFunctions(QQ)
+                    sage: p = s.p()
+                    sage: T = p.tensor_square()
+                    sage: from sage.combinat.partition import _Partitions
+                    sage: f = T.sum_of_monomials((_Partitions([4,3]), _Partitions([7,5,4])))
+                    sage: T.antipode_on_basis(f)
+                    -p[4, 3] # p[7, 5, 4]
+                """
                 TF = self.tensor_factors()
-                return tensor([F.antipode_on_basis(c) for F, c in zip(TF, x)])
+                return tensor([F.antipode_on_basis(c[0]) for F, c in zip(TF, x)])
 
 class GradedSuperSymBases(Category_realization_of_parent):
     r"""
@@ -257,10 +271,7 @@ class GradedSuperSymBases(Category_realization_of_parent):
                 sage: f.counit()
                 3
             """
-            if element == 0:
-                return self.zero()
-            else:
-                return element.coefficient(Partition([]))
+            return element.coefficient(_Partitions([]))
 
 class SuperSymAlgebra_generic(CombinatorialFreeModule):
     r"""
@@ -313,8 +324,8 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             sage: p = s.p()
             sage: p[5,4,3]
             p[5, 4, 3]
-            sage: from sage.combinat.partition import Partition
-            sage: part = Partition([3,2])
+            sage: from sage.combinat.partition import _Partitions
+            sage: part =_Partitions([3,2])
             sage: p[part]
             p[3, 2]
         """
@@ -323,7 +334,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
                 list(c).sort(reverse=True)
             else:
                 c = [c]
-            c = Partition(mu=c)
+            c = _Partitions(c)
         return self.monomial(c)
 
     def _element_constructor_(self, x):
@@ -383,7 +394,7 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
         """
         m = list(left) + list(right)
         m.sort(reverse=True)
-        return self.monomial(Partition(m))
+        return self.monomial(_Partitions(m))
 
     def coproduct_on_basis(self, mu):
         r"""
@@ -398,19 +409,28 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ)
             sage: h = s.h()
-            sage: from sage.combinat.partition import Partition
-            sage: part = Partition([4,4,2])
+            sage: from sage.combinat.partition import Partition, _Partitions
+            sage: part = _Partitions([4,4,2])
             sage: h.coproduct_on_basis(part)
             h[] # h[4, 4, 2] + 2*h[1] # h[4, 3, 2] + h[1] # h[4, 4, 1] +
             h[1, 1] # h[3, 3, 2] + 2*h[1, 1] # h[4, 3, 1] +
-            h[1, 1, 1] # h[3, 3, 1] + 2*h[2] # h[4, 2, 2] +
+            h[1, 1, 1] # h[3, 3, 1] + 2*h[2] # h[4, 2, 2] + h[2] # h[4, 4] +
             2*h[2, 1] # h[3, 2, 2] + 2*h[2, 1] # h[4, 2, 1] +
-            2*h[2, 1, 1] # h[3, 2, 1] + h[2, 2] # h[2, 2, 2] +
-            h[2, 2, 1] # h[2, 2, 1] + 2*h[3] # h[4, 2, 1] +
+            2*h[2, 1] # h[4, 3] + 2*h[2, 1, 1] # h[3, 2, 1] +
+            h[2, 1, 1] # h[3, 3] + h[2, 2] # h[2, 2, 2] + 2*h[2, 2] # h[4, 2] +
+            h[2, 2, 1] # h[2, 2, 1] + 2*h[2, 2, 1] # h[3, 2] +
+            h[2, 2, 2] # h[2, 2] + 2*h[3] # h[4, 2, 1] +
             2*h[3, 1] # h[3, 2, 1] + 2*h[3, 1] # h[4, 1, 1] +
             2*h[3, 1, 1] # h[3, 1, 1] + 2*h[3, 2] # h[2, 2, 1] +
-            2*h[3, 2, 1] # h[2, 1, 1] + h[3, 3] # h[2, 1, 1] +
-            h[3, 3, 1] # h[1, 1, 1]
+            2*h[3, 2] # h[4, 1] + 2*h[3, 2, 1] # h[2, 1, 1] +
+            2*h[3, 2, 1] # h[3, 1] + 2*h[3, 2, 2] # h[2, 1] +
+            h[3, 3] # h[2, 1, 1] + h[3, 3, 1] # h[1, 1, 1] +
+            h[3, 3, 2] # h[1, 1] + 2*h[4] # h[4, 2] + 2*h[4, 1] # h[3, 2] +
+            2*h[4, 1] # h[4, 1] + 2*h[4, 1, 1] # h[3, 1] +
+            2*h[4, 2] # h[2, 2] + 2*h[4, 2] # h[4] + 2*h[4, 2, 1] # h[2, 1] +
+            2*h[4, 2, 1] # h[3] + 2*h[4, 2, 2] # h[2] + 2*h[4, 3] # h[2, 1] +
+            2*h[4, 3, 1] # h[1, 1] + 2*h[4, 3, 2] # h[1] + h[4, 4] # h[2] +
+            h[4, 4, 1] # h[1] + h[4, 4, 2] # h[]
         """
         T = self.tensor_square()
         return T.prod(self.coproduct_on_generators(p) for p in mu)

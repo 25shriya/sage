@@ -7,7 +7,7 @@ AUTHORS:
 """
 from . import super_sfa
 from itertools import combinations_with_replacement, combinations
-from sage.combinat.partition import Partitions, Partition, _Partitions
+from sage.combinat.partition import Partitions, _Partitions
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.functions.other import factorial
 from sage.misc.misc_c import prod
@@ -148,10 +148,10 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             sage: s = SuperSymmetricFunctions(QQ)
             sage: h = s.h()
             sage: h.coproduct_on_generators(5)
-            h[] # h[5] + h[1] # h[4] + h[2] # h[3] + h[3] # h[2] + h[4] # h[1]
+            h[] # h[5] + h[1] # h[4] + h[2] # h[3] + h[3] # h[2] + h[4] # h[1] + h[5] # h[]
         """
         def P(i):
-            return Partition([i]) if i else Partition([])
+            return _Partitions([i]) if i else _Partitions([])
         T = self.tensor_square()
         return T.sum_of_monomials( (P(j), P(n-j)) for j in range(n+1) )
 
