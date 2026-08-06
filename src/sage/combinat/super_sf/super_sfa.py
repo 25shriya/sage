@@ -123,7 +123,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
         def lift(self, x):
             r"""
             Return value of ``x`` under plethysm from
-            ``SupersymFunctionAlgebra_powersum`` to 
+            ``SupersymFunctionAlgebra_powersum`` to
             ``SymmetricFunctionAlgebra_power # SymmetricFunctionAlgebra_power``.
 
             INPUT:
@@ -163,7 +163,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
         def retract(self, x):
             r"""
             Return the value under retraction of the plethysm from
-            ``SupersymFunctionAlgebra_powersum`` to 
+            ``SupersymFunctionAlgebra_powersum`` to
             ``SymmetricFunctionAlgebra_power # SymmetricFunctionAlgebra_power``.
 
             INPUT:
