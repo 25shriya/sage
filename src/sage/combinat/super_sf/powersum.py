@@ -34,6 +34,14 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
     INPUT:
 
         - ``Supersym`` -- the ring of supersymmetric functions
+
+    EXAMPLES::
+
+        sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+        sage: s = SuperSymmetricFunctions(QQ)
+        sage: p = s.p()
+        sage: p
+        Supersymmetric functions over Rational Field in the powersum basis
     """
     def __init__(self, Supersym):
         r"""
@@ -65,8 +73,8 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
     def coproduct_on_generators(self, i):
         r"""
-        Return coproduct on generators for power sums `p_\lambda`
-        (for partition `\lambda`).
+        Return coproduct on generators for power sums `p_i`
+        (for integer `i`).
 
         INPUT:
 
@@ -137,7 +145,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         p_sym = SymmetricFunctions(R).p()
         if not part:
             return p_sym.tensor_square().one()
-        phi = R.one() # Useless
+        phi = R.one()
         phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1) ** p * tensor([p_sym.one(), p_sym[p]]) for p in part])
         return phi
 
