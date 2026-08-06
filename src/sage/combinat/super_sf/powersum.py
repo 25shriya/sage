@@ -145,7 +145,6 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         p_sym = SymmetricFunctions(R).p()
         if not part:
             return p_sym.tensor_square().one()
-        phi = R.one()
         phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1) ** p * tensor([p_sym.one(), p_sym[p]]) for p in part])
         return phi
 
