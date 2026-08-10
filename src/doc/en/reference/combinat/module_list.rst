@@ -485,7 +485,7 @@ Comprehensive module list
     sage/combinat/species/sum_species
 
 ``sage.combinat.super_sf``
------------------------
+--------------------------
 
 .. toctree::
     :maxdepth: 1
