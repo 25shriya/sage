@@ -142,11 +142,14 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             2*p[4, 2] # p[4] + p[4, 4] # p[2] + p[4, 4, 2] # p[]
         """
         R = self.base_ring()
-        p_sym = SymmetricFunctions(R).p()
+        p_sq = SymmetricFunctions(R).p().tensor_square()
         if not part:
-            return p_sym.tensor_square().one()
-        phi = prod([tensor([p_sym[p], p_sym.one()]) + (-1) ** p * tensor([p_sym.one(), p_sym[p]]) for p in part])
-        return phi
+            return p_sq.one()
+        B = p_sq.basis()
+        empty = _Partitions([])
+        return p_sq.prod([B[_Partitions[p], empty] + (-1)**p * B[empty, _Partitions([p])]
+                          for p in part])
+
 
     @lazy_attribute
     def lift(self):
@@ -166,8 +169,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         R = self.base_ring()
         p_sym = SymmetricFunctions(R).p()
         T = p_sym.tensor_square()
-        inv = lambda x: x[0]
-        return self.module_morphism(self._lift_on_basis, triangular='upper', codomain=T, inverse_on_support=inv)
+        return self.module_morphism(self._lift_on_basis, triangular='upper', codomain=T, inverse_on_support=lambda x: x[0])
 
     @lazy_attribute
     def retract(self):
@@ -214,9 +216,8 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             R_gens = R.gens_dict()
             x_gens1 = [R_gens[gen] for gen in x_gens]
             y_gens1 = [R_gens[gen] for gen in y_gens]
-            res = sum([self_parts[part] *
+            return sum([self_parts[part] *
                        prod([sum([x_gens1[i] ** p - y_gens1[i] ** p
                                   for i in range(n)])
                                   for p in part])
                                   for part in self_parts])
-            return res

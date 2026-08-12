@@ -58,7 +58,8 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
             sage: R = SuperSymmetricFunctions(QQ)
             sage: TestSuite(R).run(skip="_test_fraction_field")
         """
-        assert R in Fields() or R in Rings()
+        if R not in Rings().Commutative():
+            raise ValueError("The base ring must be a commutative ring")
         cat = GradedHopfAlgebras(R).Commutative().Cocommutative()
         if R in PrincipalIdealDomains():
             cat &= UniqueFactorizationDomains()
