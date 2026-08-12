@@ -32,7 +32,6 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         e_k(\mathbb{x} \mid \mathbb{y}) = \sum_{a+b=k}\sum_{i_1 > \ldots > i_b \\ j_1 \leq \ldots \leq j_a}
         y_{j_1} \ldots y_{j_a} x_{i_1} \ldots x_{i_b}.
 
-
     These form a multiplicative non-graded basis for the ring of supersymmetric
     functions.
 
@@ -45,8 +44,8 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
     - ``Supersym`` -- the ring of supersymmetric functions
     - ``basis_name`` -- string (default: ``'homogeneous'``); one of the following
 
-        * ``'homogeneous'`` - homogeneous basis of supersymmetric functions
-        * ``'elementary'`` - elementary basis of supersymmetric functions
+      * ``'homogeneous'`` - homogeneous basis of supersymmetric functions
+      * ``'elementary'`` - elementary basis of supersymmetric functions
 
     EXAMPLES::
 
@@ -100,11 +99,11 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
 
         INPUT:
 
-        - ``x`` -- a partition, or element of ``self``
+        - ``x`` -- element of ``self``
 
         OUTPUT:
 
-        - the result of the antipode on ``x`` (or ``self[x]``)
+        - the result of the antipode on ``x``
 
         EXAMPLES::
 
@@ -143,15 +142,15 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             el = h(x)
 
         return self.sum_of_terms([(lam, (-1)**(sum(lam) % 2) * a)
-                                    for lam, a in el])
+                                  for lam, a in el])
 
     def coproduct_on_generators(self, n):
         r"""
-        Return the coproduct on `h_i`.
+        Return the coproduct on `h_n`.
 
         INPUT:
 
-        - ``i`` -- integer
+        - ``n`` -- integer
 
         EXAMPLES::
 
@@ -164,7 +163,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         def P(i):
             return _Partitions([i]) if i else _Partitions([])
         T = self.tensor_square()
-        return T.sum_of_monomials( (P(j), P(n-j)) for j in range(n+1) )
+        return T.sum_of_monomials((P(j), P(n-j)) for j in range(n+1))
 
     def lift_on_gens(self, n):
         r"""
@@ -185,8 +184,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         R = self.base_ring()
         res = R.zero()
 
-        def epsilon(part):
-            return (-1) ** (n - len(part))
+        # epsilon = lambda part: (-1) ** (n - len(part))
 
         def z(part):
             prod = R.one()
@@ -195,10 +193,11 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                 prod *= (p ** m) * factorial(p)
             return prod
 
+        ssp = Supersym.p()
         if basis_name == 'homogeneous':
-            res = sum([(1 / z(part)) * Supersym.p()[part] for part in parts])
+            res = ssp._from_dict({part: ~z(part) for part in parts})
         elif basis_name == 'elementary':
-            res = sum([(1 / z(part)) * (epsilon(part)) * Supersym.p()[part] for part in parts])
+            res = ssp._from_dict({part: (-1) ** (n - len(part)) / z(part) for part in parts})
         return res
 
     class Element(super_sfa.SuperSymAlgebra_multiplicative.Element):

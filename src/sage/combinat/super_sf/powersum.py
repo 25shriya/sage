@@ -1,5 +1,5 @@
 r"""
-Powersum basis of Supersymmetric Functions
+Powersum Basis of Supersymmetric Functions
 
 AUTHORS:
 
@@ -33,7 +33,7 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
     INPUT:
 
-        - ``Supersym`` -- the ring of supersymmetric functions
+    - ``Supersym`` -- ring of supersymmetric functions
 
     EXAMPLES::
 
@@ -120,26 +120,26 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
 
     def _lift_on_basis(self, part):
         r"""
-            Return the value of ``self[part]`` under the plethysm.
+        Return the value of ``self[part]`` under the plethysm.
 
-            INPUT:
+        INPUT:
 
-            - ``part`` -- a partition
+        - ``part`` -- partition
 
-            OUTPUT:
+        OUTPUT:
 
-            - value under the plethysm in the tensor product of powersum symmetric functions
+        - value under the plethysm in the tensor product of powersum symmetric functions
 
-            EXAMPLES::
+        EXAMPLES::
 
-                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
-                sage: s = SuperSymmetricFunctions(QQ)
-                sage: p = s.p()
-                sage: from sage.combinat.partition import _Partitions
-                sage: part = _Partitions([4,4,2])
-                sage: p._lift_on_basis(part)
-                p[] # p[4, 4, 2] + p[2] # p[4, 4] + 2*p[4] # p[4, 2] +
-                2*p[4, 2] # p[4] + p[4, 4] # p[2] + p[4, 4, 2] # p[]
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: p = s.p()
+            sage: from sage.combinat.partition import _Partitions
+            sage: part = _Partitions([4,4,2])
+            sage: p._lift_on_basis(part)
+            p[] # p[4, 4, 2] + p[2] # p[4, 4] + 2*p[4] # p[4, 2] +
+            2*p[4, 2] # p[4] + p[4, 4] # p[2] + p[4, 4, 2] # p[]
         """
         R = self.base_ring()
         p_sym = SymmetricFunctions(R).p()
