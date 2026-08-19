@@ -147,9 +147,8 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
             return p_sq.one()
         B = p_sq.basis()
         empty = _Partitions([])
-        return p_sq.prod([B[_Partitions[p], empty] + (-1)**p * B[empty, _Partitions([p])]
+        return p_sq.prod([B[_Partitions([p]), empty] + (-1)**p * B[empty, _Partitions([p])]
                           for p in part])
-
 
     @lazy_attribute
     def lift(self):

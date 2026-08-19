@@ -86,8 +86,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
         def is_integral_domain(self, proof=True):
             r"""
-            Return whether ``self`` is an integral domain. (It is if
-            and only if the base ring is an integral domain.)
+            Return whether ``self`` is an integral domain.
 
             INPUT:
 
@@ -106,7 +105,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
                 sage: s.is_integral_domain()
                 False
             """
-            return self.base_ring().is_integral_domain()
+            return self.base_ring().is_integral_domain(proof=proof)
 
         def fraction_field(self):
             r"""
