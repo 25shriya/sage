@@ -55,7 +55,9 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             sage: s1.super_categories()
             [Category of realizations of Supersymmetric functions over Rational Field,
              Category of commutative Hopf algebras with basis over Rational Field,
-             Join of Category of realizations of Hopf algebras over Rational Field and Category of graded algebras over Rational Field and Category of graded coalgebras over Rational Field,
+             Join of Category of realizations of Hopf algebras over Rational Field
+                 and Category of graded algebras over Rational Field
+                 and Category of graded coalgebras over Rational Field,
              Category of unique factorization domains]
         """
         R = self.base().base_ring()
