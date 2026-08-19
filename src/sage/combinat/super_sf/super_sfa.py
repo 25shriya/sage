@@ -135,7 +135,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
             OUTPUT:
 
-            - the value of ``x`` under the plethysm to the tensor product of Sym
+            The value of ``x`` under the plethysm to the tensor product of Sym.
 
             EXAMPLES::
 
@@ -172,11 +172,6 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
             INPUT:
 
             - ``x`` -- element of tensor product of powersum symmetric functions
-
-            OUTPUT:
-
-            - Value under retraction of plethysm to tensor product of powersum
-              symmetric functions
 
             EXAMPLES::
 
@@ -286,7 +281,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
 
         INPUT:
 
-        - ``SuperSym`` -- the ring of supersymmetric functions (default: ``None``)
+        - ``SuperSym`` -- ring of supersymmetric functions (default: ``None``)
         - ``graded`` -- boolean (default: ``True``); if ``True``, then the basis is
           considered to be graded, otherwise the basis is filtered
 

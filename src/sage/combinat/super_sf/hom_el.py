@@ -141,8 +141,8 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
             h = self.realization_of().h()
             el = h(x)
 
-        return self.sum_of_terms([(lam, (-1)**(sum(lam) % 2) * a)
-                                  for lam, a in el])
+        return self.sum_of_terms((lam, (-1)**(sum(lam) % 2) * a)
+                                 for lam, a in el)
 
     def coproduct_on_generators(self, n):
         r"""
@@ -183,8 +183,6 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         Supersym = self.realization_of()
         R = self.base_ring()
         res = R.zero()
-
-        # epsilon = lambda part: (-1) ** (n - len(part))
 
         def z(part):
             prod = R.one()
