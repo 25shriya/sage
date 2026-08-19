@@ -91,7 +91,9 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
 
             INPUT:
 
-            - ``proof`` -- an optional argument (default: value: ``True``)
+            - ``proof`` -- (default: ``True``) when ``False`` is returned, if ``True`` then
+              this is not an integral domain;  otherwise the test might not be able
+              to determine if it an integral domain or not
 
             EXAMPLES::
 
