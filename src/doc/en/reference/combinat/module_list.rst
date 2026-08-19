@@ -494,6 +494,7 @@ Comprehensive module list
     sage/combinat/super_sf/super_sfa
     sage/combinat/super_sf/powersum
     sage/combinat/super_sf/hom_el
+    sage/combinat/super_sf/all
 
 ``sage.combinat.words``
 -----------------------
