@@ -208,15 +208,14 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
                 x1^4 + x2^4 + x3^4 - y1^4 - y2^4 - y3^4
             """
             self_parts = self.monomial_coefficients()
-            x_gens = [alphabet_x + str(i).format(i) for i in range(1, n+1)]
-            y_gens = [alphabet_y + str(i).format(i) for i in range(1, n+1)]
-            variables = x_gens + y_gens
-            R = PolynomialRing(self.base_ring(), variables)
-            R_gens = R.gens_dict()
-            x_gens1 = [R_gens[gen] for gen in x_gens]
-            y_gens1 = [R_gens[gen] for gen in y_gens]
+            x_gens = [alphabet_x + str(i) for i in range(1, n + 1)]
+            y_gens = [alphabet_y + str(i) for i in range(1, n + 1)]
+            R = PolynomialRing(self.base_ring(), x_gens + y_gens)
+            R_gens = R.gens()
+            x_gens1 = R_gens[:n]
+            y_gens1 = R_gens[n:]
             return sum(self_parts[part] *
-                       prod(sum(x_gens1[i] ** p - y_gens1[i] ** p
-                                for x,y in zip(x_gens, y_gens))
+                       prod(sum(x**p - y**p
+                                for x, y in zip(x_gens1, y_gens1))
                             for p in part)
                        for part in self_parts)
