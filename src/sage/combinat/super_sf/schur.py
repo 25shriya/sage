@@ -16,7 +16,7 @@ from sage.misc.lazy_attribute import lazy_attribute
 
 class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
     def __init__(self, SuperSym):
-        super().__init__(SuperSym=SuperSym, graded=False, prefix='s', basis_name='schur')
+        super().__init__(SuperSym=SuperSym, graded=False, prefix='s', basis_name='Schur')
 
     def product_on_basis(self, left, right):
         return self.element_class(self, convert_remove_zeroes(lrcalc.mult(left, right),

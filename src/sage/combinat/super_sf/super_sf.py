@@ -147,3 +147,22 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
         return SupersymFunctionAlgebra_hom_el(self, basis_name='elementary')
 
     e = elementary
+
+    def schur(self):
+        r"""
+        The Schur basis of supersymmetric functions.
+
+        .. SEEALSO::
+
+            :mod:`sage.combinat.super_sf.schur`
+
+        EXAMPLES::
+
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: s.schur()
+            Supersymmetric functions over Rational Field in the Schur basis
+        """
+        return SupersymFunctionAlgebra_hom_el(self, basis_name='elementary')
+    
+    s = schur
