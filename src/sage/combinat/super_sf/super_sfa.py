@@ -1,5 +1,9 @@
 r"""
 Bases of Supersymmetric functions
+
+AUTHORS:
+
+- Shriya M
 """
 from sage.categories.realizations import Category_realization_of_parent
 from sage.combinat.free_module import CombinatorialFreeModule
@@ -306,6 +310,20 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
         else:
             cat = SuperSymmetricFunctionsBases(SuperSym)
         CombinatorialFreeModule.__init__(self, R, basis_keys=_Partitions, category=cat, bracket='', prefix=prefix)
+
+    def _repr_(self):
+        r"""
+        Return a string representation of ``self``.
+
+        EXAMPLES::
+
+            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+            sage: s = SuperSymmetricFunctions(QQ)
+            sage: e = s.e()
+            sage: e._repr_()
+            'Supersymmetric functions over Rational Field in the elementary basis'
+        """
+        return "%s in the %s basis" % (self.realization_of(), self.basis_name)
 
     def __getitem__(self, c):
         r"""
