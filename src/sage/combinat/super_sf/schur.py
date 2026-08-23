@@ -7,12 +7,8 @@ AUTHORS:
 """
 from . import super_sfa
 from sage.data_structures.blas_dict import convert_remove_zeroes
-from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
-from sage.combinat.partition import _Partitions, Partition
-from sage.categories.tensor import tensor
-from sage.combinat.sf.sf import SymmetricFunctions
-from sage.misc.misc_c import prod
-from sage.misc.lazy_attribute import lazy_attribute
+import sage.libs.lrcalc.lrcalc as lrcalc
+from sage.matrix.constructor import matrix
 
 class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
     def __init__(self, SuperSym):
@@ -27,5 +23,21 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
         return T.element_class(T, convert_remove_zeroes(lrcalc.coprod(mu, all=1),
                                                         self.base_ring()))
 
-    def lift_on_basis(self):
+    def lift_on_basis(self, part, basis_name='homogeneous'):
+        req_matrix = matrix.identity(l)
+        if basis_name == 'homogeneous':
+            h = self.realization_of().h()
+            l = len(part)
+            for i in range(l):
+                for j in range(l):
+                    req_matrix[i][j] = h[part[i] - i + j]
+            return req_matrix.det()
+        elif basis_name == 'elementary':
+            e = self.realization_of().e()
+            part = part.conjugate()
+            l = len(part)
+            for i in range(l):
+                for j in range(l):
+                    req_matrix[i][j] = e[part[i] - i + j]
+            return req_matrix.det()
         
