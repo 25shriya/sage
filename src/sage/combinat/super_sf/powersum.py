@@ -57,20 +57,6 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
         super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=True,
                                                    prefix='p', basis_name='powersum')
 
-    def _repr_(self):
-        r"""
-        Return a string representation of ``self``.
-
-        EXAMPLES::
-
-            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
-            sage: s = SuperSymmetricFunctions(QQ)
-            sage: p = s.p()
-            sage: p._repr_()
-            'Supersymmetric functions over Rational Field in the powersum basis'
-        """
-        return "%s in the %s basis" % (self.realization_of(), self.basis_name)
-
     def coproduct_on_generators(self, i):
         r"""
         Return coproduct on generators for power sums `p_i`

@@ -79,20 +79,6 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=True,
                                                    prefix=prefix, basis_name=basis_name)
 
-    def _repr_(self):
-        r"""
-        Return a string representation of ``self``.
-
-        EXAMPLES::
-
-            sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
-            sage: s = SuperSymmetricFunctions(QQ)
-            sage: e = s.e()
-            sage: e._repr_()
-            'Supersymmetric functions over Rational Field in the elementary basis'
-        """
-        return "%s in the %s basis" % (self.realization_of(), self.basis_name)
-
     def antipode(self, x):
         r"""
         Return the antipode of ``x``.

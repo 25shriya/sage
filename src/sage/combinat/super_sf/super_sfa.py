@@ -307,6 +307,20 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
             cat = SuperSymmetricFunctionsBases(SuperSym)
         CombinatorialFreeModule.__init__(self, R, basis_keys=_Partitions, category=cat, bracket='', prefix=prefix)
 
+    def _repr_(self):
+            r"""
+            Return a string representation of ``self``.
+    
+            EXAMPLES::
+    
+                sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
+                sage: s = SuperSymmetricFunctions(QQ)
+                sage: e = s.e()
+                sage: e._repr_()
+                'Supersymmetric functions over Rational Field in the elementary basis'
+            """
+            return "%s in the %s basis" % (self.realization_of(), self.basis_name)
+
     def __getitem__(self, c):
         r"""
         Return the monomial corresponding to the given list/partition/integer.
