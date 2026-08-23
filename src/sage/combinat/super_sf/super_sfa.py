@@ -1,5 +1,9 @@
 r"""
 Bases of Supersymmetric functions
+
+AUTHORS:
+
+- Shriya M
 """
 from sage.categories.realizations import Category_realization_of_parent
 from sage.combinat.free_module import CombinatorialFreeModule
