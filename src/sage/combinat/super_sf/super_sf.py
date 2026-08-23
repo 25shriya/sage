@@ -24,6 +24,7 @@ from sage.categories.graded_hopf_algebras import GradedHopfAlgebras
 from sage.categories.principal_ideal_domains import PrincipalIdealDomains
 from sage.combinat.super_sf.powersum import SupersymFunctionAlgebra_powersum
 from sage.combinat.super_sf.hom_el import SupersymFunctionAlgebra_hom_el
+from sage.combinat.super_sf.schur import SupersymFunctionAlgebra_schur
 
 class SuperSymmetricFunctions(UniqueRepresentation, Parent):
     r"""
@@ -163,6 +164,6 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
             sage: s.schur()
             Supersymmetric functions over Rational Field in the Schur basis
         """
-        return SupersymFunctionAlgebra_hom_el(self, basis_name='elementary')
+        return SupersymFunctionAlgebra_schur(self)
     
     s = schur
