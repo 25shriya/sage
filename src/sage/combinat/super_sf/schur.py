@@ -9,6 +9,9 @@ from . import super_sfa
 from sage.data_structures.blas_dict import convert_remove_zeroes
 import sage.libs.lrcalc.lrcalc as lrcalc
 from sage.matrix.constructor import matrix
+from sage.combinat.sf.sf import SymmetricFunctions
+from sage.combinat.partition import Partitions
+from sage.categories.tensor import tensor
 
 class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
     def __init__(self, SuperSym):
@@ -40,4 +43,14 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
                 for j in range(l):
                     req_matrix[i][j] = e[part[i] - i + j]
             return req_matrix.det()
-        
+
+    def supersym_to_sym(self, part):
+        R = self.base_ring()
+        s = SymmetricFunctions(R).s()
+        T = s.tensor_square()
+        req_sum = R.zero()
+        for mu in Partitions(sum(part), ending=part):
+            for nu in Partitions(sum(part), ending=part):
+                nu = nu.conjugate()
+                req_sum += lrcalc.lrcoef(mu, nu, part) * T.sum_of_monomials((mu, nu))
+        return req_sum
