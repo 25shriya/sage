@@ -21,16 +21,16 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
 
     .. MATH::
 
-        h_k(\mathbb{x} \mid \mathbb{y}) = \sum_{a+b=k}\sum_{i_1 \geq \ldots \geq i_b \\ j_1 < \ldots < j_a}
-        y_{j_1} \ldots y_{j_a} x_{i_1} \ldots x_{i_b}.
+        h_k(\mathbf{x} \mid \mathbf{y}) = \sum_{a+b=k}\sum_{\substack{i_1 \geq \cdots \geq i_b \\ j_1 < \cdots < j_a}}
+        y_{j_1} \cdots y_{j_a} x_{i_1} \cdots x_{i_b}.
 
-    The elementary supersymmetric function defined on variables `\mathbb{x}` and
-    `\mathbb{y}`, `e_k(\mathbb{x} \mid \mathbb{y})`, is given as
+    The elementary supersymmetric function `e_k(\mathbf{x} \mid \mathbf{y})`
+    is given as
 
     .. MATH::
 
-        e_k(\mathbb{x} \mid \mathbb{y}) = \sum_{a+b=k}\sum_{i_1 > \ldots > i_b \\ j_1 \leq \ldots \leq j_a}
-        y_{j_1} \ldots y_{j_a} x_{i_1} \ldots x_{i_b}.
+        e_k(\mathbf{x} \mid \mathbf{y}) = \sum_{a+b=k}\sum_{\substack{i_1 > \cdots > i_b \\ j_1 \leq \cdots \leq j_a}}
+        y_{j_1} \cdots y_{j_a} x_{i_1} \cdots x_{i_b}.
 
     These form a multiplicative non-graded basis for the ring of supersymmetric
     functions.
