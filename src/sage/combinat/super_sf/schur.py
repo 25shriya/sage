@@ -54,3 +54,11 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
                 nu = nu.conjugate()
                 req_sum += lrcalc.lrcoef(mu, nu, part) * T.sum_of_monomials((mu, nu))
         return req_sum
+
+    def murnaghan_nakayama(self, part):
+        R = self.base_ring()
+        Sym = SymmetricFunctions(R)
+        p_sym = Sym.p()
+        s_sym = Sym.s()
+        res = p_sym(s_sym[part])
+        return self._from_dict(res.monomial_coefficients())
