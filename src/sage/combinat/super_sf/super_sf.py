@@ -29,10 +29,10 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
     r"""
     The abstract class of commutative supersymmetric functions.
 
-    A *supersymmetric function* is a symmetric function `f(\mathbb{x}|\mathbb{y})`
-    defined over the variable sets `\mathbb{x}=(x_1, \ldots, x_m)` and `\mathbb{y}=(y_1, \ldots, y_n)`
-    such that substituting `x_m = t` and `y_n = -t` results in `f(\mathbb{x'}|\mathbb{y'})`, where
-    `\mathbb{x}=(x_1, \ldots, x_{m-1})` and `\mathbb{y}=(y_1, \ldots, y_{n-1})`.
+    A *supersymmetric function* is a symmetric function `f(\mathbf{x}|\mathbf{y})`
+    defined over the variable sets `\mathbf{x}=(x_1, \ldots, x_m)` and `\mathbf{y}=(y_1, \ldots, y_n)`
+    such that substituting `x_m = t` and `y_n = -t` results in `f(\mathbf{x'}|\mathbf{y'})`, where
+    `\mathbf{x}=(x_1, \ldots, x_{m-1})` and `\mathbf{y}=(y_1, \ldots, y_{n-1})`.
 
     INPUT:
 

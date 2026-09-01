@@ -16,8 +16,8 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
     r"""
     Homogeneous and elementary supersymmetric functions.
 
-    The homogeneous supersymmetric function defined on variables `\mathbb{x}` and
-    `\mathbb{y}`, `h_k(\mathbb{x} \mid \mathbb{y})`, is given as
+    The homogeneous supersymmetric function defined on variables `\mathbf{x}` and
+    `\mathbf{y}`, `h_k(\mathbf{x} \mid \mathbf{y})`, is given as
 
     .. MATH::
 

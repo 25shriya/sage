@@ -16,12 +16,12 @@ class SupersymFunctionAlgebra_powersum(super_sfa.SuperSymAlgebra_multiplicative)
     r"""
     Powersum supersymmetric functions.
 
-    The powersum supersymmetric function defined on variables `\mathbb{x}` and
-    `\mathbb{y}`, `p_i(\mathbb{x} \mid \mathbb{y})`, is given as
+    The powersum supersymmetric function defined on variables `\mathbf{x}` and
+    `\mathbf{y}`, `p_i(\mathbf{x} \mid \mathbf{y})`, is given as
 
     .. MATH::
 
-        p_i(\mathbb{x} \mid \mathbb{y}) = \sum_{k=1}^\infty x_k^i - y_k^i
+        p_i(\mathbf{x} \mid \mathbf{y}) = \sum_{k=1}^\infty x_k^i - y_k^i
 
     These form a non-graded multiplicative basis for the ring of supersymmetric
     functions.
