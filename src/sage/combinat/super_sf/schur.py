@@ -7,7 +7,7 @@ AUTHORS:
 """
 from . import super_sfa
 from sage.data_structures.blas_dict import convert_remove_zeroes
-from sage.libs.lrcalc import lcalc
+from sage.libs.lrcalc import lrcalc
 from sage.matrix.constructor import matrix
 from sage.combinat.sf.sf import SymmetricFunctions
 from sage.combinat.partition import Partitions
