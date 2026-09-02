@@ -234,3 +234,5 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
                     res *= req_sum
                 fin_res += monomial_coeff[k] * res
             return fin_res
+
+# github comments, return h(e.antipode(f))
