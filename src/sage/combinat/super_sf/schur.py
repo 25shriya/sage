@@ -58,7 +58,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
         """
         super().__init__(SuperSym=SuperSym, graded=False, prefix='s', basis_name='Schur')
 
-    def product_on_basis(self, left, right):
+    def product_on_basis(self, left, right):  # add reference
         r"""
         Return the product of ``left`` and ``right``.
 
@@ -129,6 +129,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
                     req_matrix[i][j] = h[part[i] - i + j]
             req_matrix = matrix(req_matrix)
             return req_matrix.det()
+
         elif basis_name == 'elementary':
             e = self.realization_of().e()
             part = part.conjugate()
@@ -168,7 +169,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
                 req_sum += lrcalc.lrcoef(mu, nu, part) * T.sum_of_monomials((mu, nu))
         return req_sum
 
-    def murnaghan_nakayama(self, part):
+    def murnaghan_nakayama(self, part):  # give a simpler example
         r"""
         Return the Schur basis in terms of Schur symmetric basis
         for a given partition, ``part``.
