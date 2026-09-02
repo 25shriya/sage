@@ -165,5 +165,5 @@ class SuperSymmetricFunctions(UniqueRepresentation, Parent):
             Supersymmetric functions over Rational Field in the Schur basis
         """
         return SupersymFunctionAlgebra_schur(self)
-    
+
     s = schur

@@ -314,9 +314,9 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
     def _repr_(self):
             r"""
             Return a string representation of ``self``.
-    
+
             EXAMPLES::
-    
+
                 sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
                 sage: s = SuperSymmetricFunctions(QQ)
                 sage: e = s.e()
