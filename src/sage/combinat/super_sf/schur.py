@@ -16,29 +16,29 @@ from sage.categories.tensor import tensor
 class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
     r"""
     Schur supersymmetric functions.
-    
+
     The Schur supersymmetric function defined on variables `\mathbf{x}` and
     `\mathbf{y}`, `s_\lambda(\mathbf{x} \mid \mathbf{y})`, is given as
 
     .. MATH::
-    
+
         s_\lambda(\mathbf{x} \mid \mathbf{y}) = \text{det}([h_{\lambda_i - i + j}(\mathbf{x} \mid \mathbf{y})]_{i,j=1}^{l})
 
     where, `\lambda = (\lambda_1, \lambda_2, \ldots, \lambda_l)` is a partition, and `l = \mid \lambda \mid`.
-    
+
     These form a non-graded multiplicative basis for the ring of supersymmetric
     functions.
-    
+
     REFERENCES:
-    
+
     - [BHS25]_
-    
+
     INPUT:
 
     - ``Supersym`` -- ring of supersymmetric functions
-    
+
     EXAMPLES::
-    
+
         sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
         sage: s = SuperSymmetricFunctions(QQ)
         sage: p = s.s()
@@ -61,7 +61,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
     def product_on_basis(self, left, right):
         r"""
         Return the product of ``left`` and ``right``.
-        
+
         INPUT:
 
         - ``left``, ``right`` -- partitions
@@ -77,7 +77,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
                 + 2*s[3, 2, 1] + s[3, 3] + s[4, 1, 1] + s[4, 2]
         """
         return self.element_class(self, convert_remove_zeroes(lrcalc.mult(left, right),
-                                                                  self.base_ring()))
+                                                         self.base_ring()))
     
     def coproduct_on_basis(self, mu):
         r"""
