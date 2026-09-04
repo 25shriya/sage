@@ -234,7 +234,7 @@ class GradedSuperSymBases(Category_realization_of_parent):
             sage: f._repr_()
             'Category of graded bases of Supersymmetric functions over Rational Field'
         """
-        return "Category of graded bases of %s" % self.base()
+        return "Category of graded bases of {}".format(self.base())
 
     def super_categories(self):
         r"""
