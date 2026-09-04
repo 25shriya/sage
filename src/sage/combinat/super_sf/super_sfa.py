@@ -359,7 +359,7 @@ class SuperSymAlgebra_generic(CombinatorialFreeModule):
 
         INPUT:
 
-        - ``x`` -- an element of supersymmetric functions
+        - ``x`` -- element of supersymmetric functions
 
         EXAMPLES::
 
