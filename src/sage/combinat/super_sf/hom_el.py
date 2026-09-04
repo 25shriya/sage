@@ -74,7 +74,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         elif basis_name == 'elementary':
             prefix = 'e'
         else:
-            raise ValueError("Invalid basis name")
+            raise ValueError("invalid basis name")
         super_sfa.SuperSymAlgebra_generic.__init__(self, SuperSym=Supersym, graded=True,
                                                    prefix=prefix, basis_name=basis_name)
 
