@@ -31,7 +31,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         e_k(\mathbf{x} \mid \mathbf{y}) = \sum_{a+b=k}\sum_{\substack{i_1 > \cdots > i_b \\ j_1 \leq \cdots \leq j_a}}
         y_{j_1} \cdots y_{j_a} x_{i_1} \cdots x_{i_b}.
 
-    These form a multiplicative non-graded basis for the ring of supersymmetric
+    These form multiplicative non-graded bases for the ring of supersymmetric
     functions.
 
     REFERENCES:
