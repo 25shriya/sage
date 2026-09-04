@@ -123,7 +123,7 @@ class SuperSymmetricFunctionsBases(Category_realization_of_parent):
                 Fraction Field of Supersymmetric functions over Rational Field in the powersum basis
             """
             if not self.is_integral_domain():
-                raise TypeError("self must be an integral domain")
+                raise TypeError("not an integral domain")
             from sage.rings.fraction_field import FractionField_generic
             return FractionField_generic(self)
 
