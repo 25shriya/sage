@@ -29,18 +29,6 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
     These form a non-graded multiplicative basis for the ring of supersymmetric
     functions.
 
-
-
-
-
-
-
-
-
-
-
-
-
     REFERENCES:
 
     - [BHS25]_
@@ -73,6 +61,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
     def product_on_basis(self, left, right):  # add reference
         r"""
         Return the product of ``left`` and ``right``.
+        The product
 
         INPUT:
 
@@ -113,7 +102,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
         return T.element_class(T, convert_remove_zeroes(lrcalc.coprod(mu, all=1),
                                                         self.base_ring()))
 
-    def lift_on_basis(self, part, basis_name='homogeneous'):
+    def _to_hom_el_on_basis(self, part, basis_name='homogeneous'):
         r"""
         Return the Schur basis in terms of homogeneous or elementary basis
         for a given partition, ``part``.
@@ -129,7 +118,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
             sage: s = Sym.s()
             sage: from sage.combinat.partition import _Partitions
             sage: part = _Partitions([4,4,2])
-            sage: s.lift_on_basis(part)
+            sage: s._to_hom_el_on_basis(part)
             0
         """
         l = len(part)
@@ -152,7 +141,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
             req_matrix = matrix(req_matrix)
             return req_matrix.det()
 
-    def supersym_to_sym(self, part):  # lift on basis - change name
+    def lift_on_basis(self, part):
         r"""
         Return the Schur basis in terms of Schur symmetric basis
         for a given partition, ``part``.
@@ -168,20 +157,20 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
             sage: s = Sym.s()
             sage: from sage.combinat.partition import _Partitions
             sage: part = _Partitions([6,5])
-            sage: s.supersym_to_sym(part)
+            sage: s.lift_on_basis(part)
             0
         """
         R = self.base_ring()
         s = SymmetricFunctions(R).s()
         T = s.tensor_square()
-        req_sum = R.zero()
+        req_sum = {}
         for mu in Partitions(sum(part), ending=part):
             for nu in Partitions(sum(part), ending=part):
                 nu = nu.conjugate()
-                req_sum += lrcalc.lrcoef(mu, nu, part) * T.sum_of_monomials((mu, nu))  # Req_sum should be a dictionary, pairs of parts:coefficients
-        return req_sum  # return from dict of req_sum (say coerce=True)
+                req_sum[(mu, nu)] = lrcalc.lrcoef(mu, nu, part)
+        return self._from_dict(req_sum, coerce=True)
 
-    def murnaghan_nakayama(self, part):  # give a simpler example. Call this _to_powersum_on_basis
+    def _to_powersum_on_basis(self, part):
         r"""
         Return the Schur basis in terms of Schur symmetric basis
         for a given partition, ``part``.
@@ -196,29 +185,9 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
             sage: Sym = SuperSymmetricFunctions(QQ)
             sage: s = Sym.s()
             sage: from sage.combinat.partition import Partition
-            sage: part = Partition([6,5])
-            sage: s.murnaghan_nakayama(part)
-            1/302400*p[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] +
-            1/15120*p[2, 1, 1, 1, 1, 1, 1, 1, 1, 1] +
-            1/2016*p[2, 2, 1, 1, 1, 1, 1, 1, 1] +
-            1/720*p[2, 2, 2, 1, 1, 1, 1, 1] +
-            1/576*p[2, 2, 2, 2, 1, 1, 1] +
-            1/20160*p[3, 1, 1, 1, 1, 1, 1, 1, 1] +
-            1/720*p[3, 2, 1, 1, 1, 1, 1, 1] +
-            1/288*p[3, 2, 2, 1, 1, 1, 1] + 1/144*p[3, 2, 2, 2, 1, 1] -
-            1/576*p[3, 2, 2, 2, 2] + 1/360*p[3, 3, 1, 1, 1, 1, 1] +
-            1/72*p[3, 3, 2, 2, 1] - 1/108*p[3, 3, 3, 1, 1] +
-            1/108*p[3, 3, 3, 2] - 1/2520*p[4, 1, 1, 1, 1, 1, 1, 1] +
-            1/72*p[4, 3, 1, 1, 1, 1] - 1/36*p[4, 3, 3, 1] +
-            1/48*p[4, 4, 1, 1, 1] - 1/48*p[4, 4, 3] -
-            1/450*p[5, 1, 1, 1, 1, 1, 1] - 1/120*p[5, 2, 1, 1, 1, 1] -
-            1/120*p[5, 2, 2, 2] + 1/90*p[5, 3, 1, 1, 1] +
-            1/30*p[5, 3, 2, 1] + 1/90*p[5, 3, 3] + 1/20*p[5, 4, 1, 1] +
-            1/25*p[5, 5, 1] - 1/180*p[6, 1, 1, 1, 1, 1] -
-            1/36*p[6, 2, 1, 1, 1] - 1/36*p[6, 3, 1, 1] +
-            1/36*p[6, 3, 2] + 1/30*p[6, 5] - 1/168*p[7, 1, 1, 1, 1] -
-            1/28*p[7, 2, 1, 1] - 1/56*p[7, 2, 2] - 1/21*p[7, 3, 1] -
-            1/28*p[7, 4]
+            sage: part = Partition([2,1])
+            sage: s._to_powersum_on_basis(part)
+            1/3*p[1, 1, 1] - 1/3*p[3]
         """
         R = self.base_ring()
         Sym = SymmetricFunctions(R)
