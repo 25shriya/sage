@@ -418,7 +418,7 @@ class SuperSymAlgebra_multiplicative(SuperSymAlgebra_generic):
 
         INPUT:
 
-        - ``mu`` -- a partition
+        - ``mu`` -- partition
 
         EXAMPLES::
 
