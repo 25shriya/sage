@@ -86,10 +86,6 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
 
         - ``x`` -- element of ``self``
 
-        OUTPUT:
-
-        - the result of the antipode on ``x``
-
         EXAMPLES::
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
