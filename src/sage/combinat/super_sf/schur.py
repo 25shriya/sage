@@ -29,6 +29,18 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
     These form a non-graded multiplicative basis for the ring of supersymmetric
     functions.
 
+
+
+
+
+
+
+
+
+
+
+
+
     REFERENCES:
 
     - [BHS25]_
@@ -140,7 +152,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
             req_matrix = matrix(req_matrix)
             return req_matrix.det()
 
-    def supersym_to_sym(self, part):
+    def supersym_to_sym(self, part):  # lift on basis - change name
         r"""
         Return the Schur basis in terms of Schur symmetric basis
         for a given partition, ``part``.
@@ -166,10 +178,10 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
         for mu in Partitions(sum(part), ending=part):
             for nu in Partitions(sum(part), ending=part):
                 nu = nu.conjugate()
-                req_sum += lrcalc.lrcoef(mu, nu, part) * T.sum_of_monomials((mu, nu))
-        return req_sum
+                req_sum += lrcalc.lrcoef(mu, nu, part) * T.sum_of_monomials((mu, nu))  # Req_sum should be a dictionary, pairs of parts:coefficients
+        return req_sum  # return from dict of req_sum (say coerce=True)
 
-    def murnaghan_nakayama(self, part):  # give a simpler example
+    def murnaghan_nakayama(self, part):  # give a simpler example. Call this _to_powersum_on_basis
         r"""
         Return the Schur basis in terms of Schur symmetric basis
         for a given partition, ``part``.
@@ -215,3 +227,6 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
         res = p_sym(s_sym[part])
         p = self.realization_of().p()
         return p._from_dict(res.monomial_coefficients())
+
+# monomial - comul, mul and antipode - define by coercion
+# lift map to powersum
