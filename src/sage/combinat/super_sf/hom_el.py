@@ -24,8 +24,7 @@ class SupersymFunctionAlgebra_hom_el(super_sfa.SuperSymAlgebra_multiplicative):
         h_k(\mathbf{x} \mid \mathbf{y}) = \sum_{a+b=k}\sum_{\substack{i_1 \geq \cdots \geq i_b \\ j_1 < \cdots < j_a}}
         y_{j_1} \cdots y_{j_a} x_{i_1} \cdots x_{i_b}.
 
-    The elementary supersymmetric function `e_k(\mathbf{x} \mid \mathbf{y})`
-    is given as
+    The *elementary supersymmetric function* is defined as
 
     .. MATH::
 
