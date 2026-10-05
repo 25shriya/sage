@@ -76,7 +76,7 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
 
             sage: from sage.combinat.super_sf.super_sf import SuperSymmetricFunctions
             sage: s = SuperSymmetricFunctions(QQ).s()
-            sage: a = s([2,1]) + 1; a
+            sage: a = s[2,1] + 1; a
             s[] + s[2, 1]
             sage: a^2   # indirect doctest
             s[] + 2*s[2, 1] + s[2, 2, 1, 1] + s[2, 2, 2] + s[3, 1, 1, 1]
@@ -164,8 +164,6 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
             0
         """
         R = self.base_ring()
-        s = SymmetricFunctions(R).s()
-        T = s.tensor_square()
         req_sum = {}
         for mu in Partitions(sum(part), ending=part):
             for nu in Partitions(sum(part), ending=part):
@@ -200,7 +198,4 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
         p = self.realization_of().p()
         return p._from_dict(res.monomial_coefficients())
 
-# monomial - comul, mul and antipode - define by coercion
-# lift map to powersum
-# Monomial - moens thesis
-# Unsure about Schur coproduct
+# Unsure about Schur coproduct and lift for monomial
