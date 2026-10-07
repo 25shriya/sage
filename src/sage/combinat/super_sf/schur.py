@@ -198,4 +198,5 @@ class SupersymFunctionAlgebra_schur(super_sfa.SuperSymAlgebra_generic):
         p = self.realization_of().p()
         return p._from_dict(res.monomial_coefficients())
 
-# Unsure about Schur coproduct and lift for monomial
+# Unsure about Schur coproduct
+# Schur to homogeneous, coproduct and back
